@@ -21,6 +21,7 @@
 
 
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 
 
 
@@ -278,7 +279,7 @@
 
 
 
-                Hotels Command a 5% Reliability Premium
+                More Than Half of NYC Supply Is Commercial
 
 
 
@@ -294,7 +295,7 @@
 
 
 
-                    <p class="text-lg font-medium text-gray-300 mb-2">Airbnb Avg</p>
+                    <p class="text-lg font-medium text-gray-300 mb-2">Commercial Hosts</p>
 
 
 
@@ -302,7 +303,7 @@
 
 
 
-                        $123
+                        56%
 
 
 
@@ -319,7 +320,7 @@
 
 
 
-                    VS
+                    AND
 
 
 
@@ -331,7 +332,7 @@
 
 
 
-                    <p class="text-lg font-medium text-gray-300 mb-2">Hotel Avg</p>
+                    <p class="text-lg font-medium text-gray-300 mb-2">Entire Homes</p>
 
 
 
@@ -339,7 +340,7 @@
 
 
 
-                        $129
+                        56%
 
 
 
@@ -368,7 +369,7 @@
 
 
 
-                    <span class="text-gray-200">Hotels command a +$6 'Reliability Premium'.</span>
+                    <span class="text-gray-200">56% of listings come from hosts running multiple properties, and 56% are entire homes — this is a distributed lodging industry, not homesharing.</span>
 
 
 
@@ -376,8 +377,7 @@
 
 
 
-                    <span class="text-gray-200">Hold rates steady and leverage service consistency over price
-                        wars.</span>
+                    <span class="text-gray-200">Compete against professional operators on service consistency and trust — not on nightly rate.</span>
 
 
 
@@ -389,8 +389,7 @@
 
 
 
-            <p class="mt-8 text-xs text-gray-400 uppercase tracking-widest">Scope: NYC Market Analysis (2024) • Source:
-                Tableau Analytics (116k Data Points)</p>
+            <p class="mt-8 text-xs text-gray-400 uppercase tracking-widest">Scope: NYC Market (June 2026 snapshot) • Source: Inside Airbnb open data, CC BY 4.0 • 30,259 listings analyzed in Python</p>
 
 
 
@@ -469,10 +468,10 @@
 
 
 
-                                <span class="font-semibold text-gray-900 dark:text-white">Legacy Blindspot:</span>
-                                Stakeholders lacked unified metrics to benchmark performance across distinct asset
-                                classes (Fixed Hotel Inventory vs. Variable Airbnb Listings). This created a "yield gap"
-                                during high-demand periods.
+                                <span class="font-semibold text-gray-900 dark:text-white">The Question:</span>
+                                Hoteliers treat Airbnb as a single competitor, but that framing hides the real threat.
+                                Is NYC's short-term rental market casual homesharing &mdash; or a professionalized
+                                lodging industry operating outside hotel regulation?
 
 
 
@@ -508,10 +507,11 @@
 
 
 
-                                <span class="font-semibold text-gray-900 dark:text-white">Forensic Engineering:</span>
-                                Engineered a proprietary Tableau dashboard to filter 116,000+ data points. Isolated
-                                "Guest Type" behaviors to correct the "Revenue vs. Rate" fallacy and map true demand
-                                drivers.
+                                <span class="font-semibold text-gray-900 dark:text-white">The Analysis:</span>
+                                Built a reproducible Python (pandas) pipeline against 30,259 live NYC listings from
+                                Inside Airbnb &mdash; cleaning currency strings, resolving schema differences, and
+                                validating null rates and outliers before analysis. Segmented supply by host portfolio
+                                size to separate individual hosts from commercial operators.
 
 
 
@@ -547,15 +547,17 @@
 
 
 
-                                <span class="font-semibold text-gray-900 dark:text-white">Strategic Nuance:</span>
-                                Validated that Hotels command a "Reliability Premium" ($129 ADR) compared to Airbnb's
-                                "Leisure Flexibility" ($123).<br />
+                                <span class="font-semibold text-gray-900 dark:text-white">The Finding:</span>
+                                56% of listings belong to hosts operating multiple properties, and 56% are entire homes.
+                                One third of all supply (10,081 listings) comes from hosts with 6+ properties &mdash;
+                                and that tier commands the highest median rate of any host segment at $209/night.<br />
 
 
 
-                                <span class="font-semibold text-gray-900 dark:text-white mt-2 block">Crucial
-                                    Insight:</span> While distinct, competitive overlap spikes during Peak Seasons,
-                                requiring distinct yield strategies rather than a blanket price war.
+                                <span class="font-semibold text-gray-900 dark:text-white mt-2 block">Strategic
+                                    Implication:</span> The competitor is not a spare bedroom &mdash; it is a distributed
+                                hotel business. Compete on service consistency, trust, and loyalty economics, not on
+                                nightly rate.
 
 
 
@@ -727,9 +729,9 @@
 
 
 
-                        Built a proprietary <strong class="text-white">Tableau Dashboard</strong> (analyzing 116k data
-                        points) to isolate "Guest Type" behaviors. Correlated "Complaint Spikes" with "Occupancy Rates"
-                        to map operational breaking points.
+                        Built a reproducible <strong class="text-white">Python (pandas) pipeline</strong> against 30,259 live
+                        NYC listings. Validated data quality first &mdash; null rates, outliers, duplicates &mdash; then
+                        segmented supply by host portfolio size to separate individuals from commercial operators.
 
 
 
@@ -770,9 +772,9 @@
 
 
 
-                        Disproved the "Total Substitution" theory. Validated that Hotels command a <strong
-                            class="text-white">"Reliability Premium,"</strong> with direct competitive overlap occurring
-                        <strong class="text-white">only during Peak Seasons</strong> (not year-round).
+                        Established that the market is <strong class="text-white">majority commercial</strong>: 56% of listings
+                        come from multi-property hosts and 56% are entire homes &mdash; with the largest operators
+                        <strong class="text-white">charging the highest rates</strong>, not the lowest.
 
 
 
@@ -812,7 +814,7 @@
 
 
 
-                    Pricing Intelligence: The Reliability Premium
+                    Pricing Intelligence: Where the Market Concentrates
 
 
 
@@ -824,7 +826,7 @@
 
 
 
-                    Forensic Analysis of ADR Stability vs. Algorithmic Volatility (Data Source: Tableau, 116k Points)
+                    Median nightly rate by borough &mdash; Inside Airbnb open data, June 2026 snapshot (n = 30,259)
 
 
 
@@ -843,23 +845,23 @@
                 <div
                     class="w-full lg:w-1/4 flex justify-center items-end gap-6 h-64 border-b border-gray-200 dark:border-gray-600 pb-4 px-4">
                     <div
-                        class="w-16 bg-secondary flex flex-col justify-start items-center relative h-[90%] rounded-t-sm shadow-sm transition-all duration-300 hover:brightness-110 hover:scale-y-110 origin-bottom cursor-pointer group">
+                        class="w-16 bg-secondary flex flex-col justify-start items-center relative rounded-t-sm shadow-sm transition-all duration-300 hover:brightness-110 hover:scale-y-110 origin-bottom cursor-pointer group" style="height:46%">
                         <span
-                            class="text-[10px] font-bold mt-2 text-white text-center leading-tight group-hover:scale-y-[0.9] origin-top transition-transform">Airbnb
-                            ADR
-                            (Avg)</span>
+                            class="text-[10px] font-bold mt-2 text-white text-center leading-tight group-hover:scale-y-[0.9] origin-top transition-transform">Private
+                            Room
+                            (Median)</span>
                         <span
-                            class="text-xl font-black text-white mt-1 group-hover:scale-y-[0.9] origin-top transition-transform">$123</span>
+                            class="text-xl font-black text-white mt-1 group-hover:scale-y-[0.9] origin-top transition-transform">$102</span>
                     </div>
 
                     <div
                         class="w-16 bg-primary flex flex-col justify-start items-center relative h-full rounded-t-sm shadow-sm transition-all duration-300 hover:brightness-110 hover:scale-y-110 origin-bottom cursor-pointer group">
                         <span
-                            class="text-[10px] font-bold mt-2 text-white text-center leading-tight group-hover:scale-y-[0.9] origin-top transition-transform">Hotel
-                            ADR
-                            (Avg)</span>
+                            class="text-[10px] font-bold mt-2 text-white text-center leading-tight group-hover:scale-y-[0.9] origin-top transition-transform">Entire
+                            Home
+                            (Median)</span>
                         <span
-                            class="text-xl font-black text-white mt-1 group-hover:scale-y-[0.9] origin-top transition-transform">$129</span>
+                            class="text-xl font-black text-white mt-1 group-hover:scale-y-[0.9] origin-top transition-transform">$221</span>
                     </div>
                 </div>
 
@@ -867,8 +869,7 @@
 
                 <div class="w-full lg:w-3/4">
 
-                    <img src="assets/charts/pricing-strategy-distribution.png" alt="Daily Pricing Strategy Chart"
-                        class="w-full h-auto rounded-lg shadow-sm border border-gray-100 dark:border-gray-700">
+                    <div style="position:relative;height:260px;width:100%"><canvas id="adrLineChart"></canvas></div>
 
                 </div>
 
@@ -904,8 +905,8 @@
 
 
 
-                            <strong>Hotels (The Anchor):</strong> Maintain rigid pricing (~$129) to guarantee
-                            predictability for business travelers.
+                            <strong>Manhattan (The Anchor):</strong> Median $237/night across 13,709 listings &mdash; the
+                            deepest and most expensive supply pool in the city.
 
 
 
@@ -929,8 +930,8 @@
 
 
 
-                            <strong>Airbnb (Yield Volatility Risk):</strong> Uses algorithmic pricing (~$123) to
-                            undercut, appealing only to leisure tourists.
+                            <strong>Commercial operators (6+ listings):</strong> 10,081 listings &mdash; a third of all supply &mdash;
+                            priced at a $209 median, above the citywide $173. Scale is being used to command a premium, not to discount.
 
 
 
@@ -951,7 +952,7 @@
 
 
 
-                    RECOMMENDATION: Do not lower rates. The $6 gap is a "Reliability Fee." Stick to your price.
+                    RECOMMENDATION: Benchmark against professional operators, not casual hosts. Compete on trust and service consistency.
 
 
 
@@ -987,7 +988,7 @@
 
 
 
-                    Seasonality &amp; Operational Risk
+                    Supply Concentration &amp; Host Professionalization
 
 
 
@@ -999,7 +1000,7 @@
 
 
 
-                    Trend Analysis: Peak Season Overlap vs. Complaint Volume (Source: Tableau)
+                    Listings and median nightly rate by host portfolio size (Source: Inside Airbnb, June 2026)
 
 
 
@@ -1020,8 +1021,7 @@
 
 
 
-                    <img src="assets/charts/airbnb-revenue-analysis.png" alt="Airbnb vs Hotel Revenue Chart"
-                        class="w-full h-auto rounded-lg">
+                    <div style="position:relative;height:300px;width:100%"><canvas id="seasonComboChart"></canvas></div>
 
 
 
@@ -1034,16 +1034,16 @@
 
 
 
-                    <div class="text-5xl font-black text-red-500 mb-2 count-up" data-target="30">+0%</div>
+                    <div class="text-5xl font-black text-red-500 mb-2 count-up" data-target="56">0%</div>
 
 
 
-                    <div class="text-lg font-bold text-gray-900 dark:text-white">Guest Complaint Rate</div>
+                    <div class="text-lg font-bold text-gray-900 dark:text-white">Commercial Host Share</div>
 
 
 
-                    <div class="text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wide">During Peak
-                        Overlap</div>
+                    <div class="text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wide">Multi-Property
+                        Hosts</div>
 
 
 
@@ -1072,9 +1072,9 @@
 
 
 
-                        Competitive overlap occurs <strong class="text-gray-900 dark:text-white">strictly during
-                            Summer Peak (Jun-Aug)</strong>. Airbnb inventory absorbs overflow demand when Hotel
-                        occupancy hits &gt;90%.
+                        Supply is concentrated: <strong class="text-gray-900 dark:text-white">Manhattan and Brooklyn hold
+                            80% of all listings</strong> (24,271 of 30,259), making them the only two boroughs where
+                        short-term rentals meaningfully pressure hotel demand.
 
 
 
@@ -1099,9 +1099,9 @@
 
 
 
-                        High Airbnb occupancy correlates with a <strong class="text-gray-900 dark:text-white">30%
-                            spike in Guest Complaints</strong> (Noise/Cleanliness), whereas Hotels maintain service
-                        consistency.
+                        Hosts with 6+ properties command a <strong class="text-gray-900 dark:text-white">$209 median rate
+                            &mdash; 21% above the citywide $173</strong>. Professional operators are not competing on
+                        price; they are capturing premium demand.
 
 
 
@@ -1122,9 +1122,9 @@
 
 
 
-                        <span class="font-bold">✓ RECOMMENDATION:</span> Leverage Airbnb as a "Peak Season Overflow"
-                        channel. Allow competitive overlap strictly during high-demand periods (&gt;90% occupancy)
-                        to protect rate integrity.
+                        <span class="font-bold">✓ RECOMMENDATION:</span> Treat the top host tier as the true competitive set.
+                        Benchmark service and pricing against professional operators in Manhattan and Brooklyn, not
+                        against the long tail of single-listing hosts.
 
 
 
@@ -1148,8 +1148,10 @@
 
 
 
-            Data Source: Tableau Analysis of 116k bookings (NYC Market, 2024). Complaint correlations based on
-            sentiment analysis derived specifically during &gt;90% occupancy periods.
+            Data source: Inside Airbnb NYC snapshot, 14 June 2026 (CC BY 4.0), analyzed in Python/pandas &mdash; 30,259
+            listings, 90 fields. Methodology note: 28.9% of listings had no price on the scrape date and are excluded
+            from price statistics (n = 21,299 after also capping the top 1% above $1,714 to limit outlier distortion).
+            Median is used throughout because the price distribution is right-skewed. Supply counts use the full dataset.
 
 
 
@@ -1260,8 +1262,8 @@
 
 
                             <strong class="text-gray-900 dark:text-white">• The Mandate:</strong> Maintain
-                            the <strong class="text-primary">"Reliability Premium"</strong> ($129). Do not drop rates to
-                            match Airbnb. Your competitive advantage is <strong
+                            your <strong class="text-primary">service and trust advantage</strong>. Do not drop rates to
+                            match commercial operators. Your competitive advantage is <strong
                                 class="text-gray-900 dark:text-white">Service Consistency</strong>, not price.
 
 
@@ -1323,8 +1325,8 @@
 
 
                             <strong class="text-gray-900 dark:text-white">• The Mandate:</strong> Monitor
-                            Airbnb as a <strong class="text-secondary">"Demand Barometer"</strong> only. Their
-                            algorithmic pricing ($123) targets a volatile segment that hotels should not chase.
+                            the <strong class="text-secondary">6+ listing tier</strong> as the real benchmark. Their $209 median
+                            signals where professionalized supply is capturing premium demand.
 
 
 
@@ -1499,7 +1501,7 @@
 
                 <div class="mb-4 md:mb-0">
                     <p class="text-lg font-medium text-gray-300">Tamira Carter <span class="text-gray-500 mx-2">|</span>
-                        <span class="text-gray-400 text-sm uppercase tracking-wider">Data & Insights Analyst</span>
+                        <span class="text-gray-400 text-sm uppercase tracking-wider">Market Strategy Consultant</span>
                     </p>
                 </div>
 
@@ -1581,6 +1583,65 @@
 
             counters.forEach(counter => observer.observe(counter));
         });
+    </script>
+
+<script>
+    (function(){
+      if(typeof Chart==='undefined')return;
+      var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var gold='#D4AF37', teal='#14B8A6', red='#E15759', ink='#374151', grid='#E5E7EB', muted='#9CA3AF';
+      Chart.defaults.font.family="'Inter', sans-serif"; Chart.defaults.font.size=12; Chart.defaults.color=ink;
+      var tip={backgroundColor:'#111827',padding:11,cornerRadius:8,titleFont:{weight:'600',size:13},bodyFont:{size:12.5},usePointStyle:true,boxPadding:5};
+
+      /* CHART 1 — Real median nightly price by borough (Inside Airbnb, June 2026, n=30,259) */
+      var boroughs=['Manhattan','Brooklyn','Queens','Staten Island','Bronx'];
+      var medPrice=[237,151,120,107,106];
+      var counts=[13709,10562,4680,332,976];
+      new Chart(document.getElementById('adrLineChart'),{type:'bar',
+        data:{labels:boroughs,datasets:[
+          {label:'Median nightly price',data:medPrice,
+           backgroundColor:[gold,teal,teal,teal,teal],borderRadius:4,barPercentage:.68}
+        ]},
+        options:{responsive:true,maintainAspectRatio:false,animation:reduce?false:{duration:900},
+          plugins:{legend:{display:false},
+            tooltip:Object.assign({},tip,{callbacks:{
+              label:function(c){return ' Median: $'+c.parsed.y+'/night';},
+              afterLabel:function(c){return ' Listings: '+counts[c.dataIndex].toLocaleString();}}})},
+          scales:{y:{beginAtZero:true,grid:{color:grid,drawBorder:false},
+              ticks:{callback:function(v){return '$'+v;},padding:8},
+              title:{display:true,text:'Median nightly price',color:muted,font:{size:11}}},
+            x:{grid:{display:false},ticks:{font:{weight:'600',size:12}}}}}
+      });
+
+      /* CHART 2 — Real supply & pricing by host portfolio size */
+      var tiers=['Single listing','2\u20135 listings','6+ listings'];
+      var tierCounts=[13274,6904,10081];
+      var tierPrice=[173,147,209];
+      new Chart(document.getElementById('seasonComboChart'),{
+        data:{labels:tiers,datasets:[
+          {type:'bar',label:'Listings',data:tierCounts,backgroundColor:[teal,gold,red],
+           borderRadius:4,barPercentage:.62,yAxisID:'y',order:2},
+          {type:'line',label:'Median price',data:tierPrice,borderColor:ink,backgroundColor:ink,
+           borderWidth:2.5,tension:.3,pointRadius:4,pointHoverRadius:6,yAxisID:'y1',order:1}
+        ]},
+        options:{responsive:true,maintainAspectRatio:false,animation:reduce?false:{duration:900},
+          interaction:{mode:'index',intersect:false},
+          plugins:{legend:{display:true,position:'top',align:'end',
+              labels:{usePointStyle:true,boxWidth:14,font:{size:11,weight:'600'}}},
+            tooltip:Object.assign({},tip,{callbacks:{label:function(c){
+              if(c.dataset.label==='Listings'){
+                return ' Listings: '+c.parsed.y.toLocaleString()+' ('+Math.round(c.parsed.y/30259*100)+'% of supply)';}
+              return ' Median price: $'+c.parsed.y+'/night';}}})},
+          scales:{
+            y:{position:'left',beginAtZero:true,grid:{color:grid,drawBorder:false},
+               ticks:{callback:function(v){return (v/1000)+'k';},padding:6},
+               title:{display:true,text:'Listings',color:muted,font:{size:11}}},
+            y1:{position:'right',beginAtZero:true,suggestedMax:260,grid:{display:false},
+                ticks:{callback:function(v){return '$'+v;},padding:6},
+                title:{display:true,text:'Median price',color:muted,font:{size:11}}},
+            x:{grid:{display:false},ticks:{font:{weight:'600',size:11.5}}}}}
+      });
+    })();
     </script>
 </body>
 

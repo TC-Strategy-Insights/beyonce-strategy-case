@@ -16,7 +16,7 @@
 
 
 
-    <title>Market Strategy Analysis - Airbnb vs Hotels</title>
+    <title>Airbnb vs. Hotels | NYC Pricing Analysis</title>
 
 
 
@@ -267,7 +267,7 @@
 
 
 
-                Market Fragmentation Strategy
+                Airbnb vs. Hotels
 
 
 
@@ -275,11 +275,11 @@
 
 
 
-            <p class="text-lg md:text-xl font-bold mb-12 uppercase tracking-wide text-gray-200">
+            <p class="text-lg md:text-2xl font-semibold mb-12 tracking-normal text-gray-200 max-w-3xl mx-auto leading-snug">
 
 
 
-                More Than Half of NYC Supply Is Commercial
+                Hotels don't need to cut prices. The Airbnb price advantage is smaller than it appears.
 
 
 
@@ -295,7 +295,7 @@
 
 
 
-                    <p class="text-lg font-medium text-gray-300 mb-2">Commercial Hosts</p>
+                    <p class="text-lg font-medium text-gray-300 mb-2">What the averages say</p>
 
 
 
@@ -303,7 +303,7 @@
 
 
 
-                        56%
+                        $161
 
 
 
@@ -320,7 +320,7 @@
 
 
 
-                    AND
+                    VS
 
 
 
@@ -332,7 +332,7 @@
 
 
 
-                    <p class="text-lg font-medium text-gray-300 mb-2">Entire Homes</p>
+                    <p class="text-lg font-medium text-gray-300 mb-2">What a fair comparison says</p>
 
 
 
@@ -340,7 +340,7 @@
 
 
 
-                        56%
+                        $97
 
 
 
@@ -369,7 +369,7 @@
 
 
 
-                    <span class="text-gray-200">56% of listings come from hosts running multiple properties, and 56% are entire homes — this is a distributed lodging industry, not homesharing.</span>
+                    <span class="text-gray-200">The $173 citywide figure blends two very different things: every borough averaged together, and private rooms averaged in with entire homes. A private room runs $102 and an entire home $221. Only one of those competes with a hotel room.</span>
 
 
 
@@ -377,7 +377,7 @@
 
 
 
-                    <span class="text-gray-200">Compete against professional operators on service consistency and trust — not on nightly rate.</span>
+                    <span class="text-gray-200">Hotels shouldn't rush to cut prices based on the citywide number. A fair comparison has to match two things: the borough and the type of listing. An entire home in Manhattan is the product that competes with a hotel room, and it runs well above the $173 citywide figure.</span>
 
 
 
@@ -413,9 +413,23 @@
 
 
 
-                <img alt="Modern skyscraper representing corporate structure"
-                    class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-5C7BbVPab-dClH-jo9kDvDt3zPr4DlBlaQSuvqMHVAORbC_yTSj43J35MHPu2J2e9XKc7wV5GQSFwdF7_v9I-45VAJD2z6nBYbDpyux0aNlJ1-uSv61twWl9HUI1JO1WEYSb9fFnBWaEWqDQdjhfGf7KWslL33-4_3aSHOdFSKgtNI6SEqY6paQ9SIgCv-yo--LykA1Fz2-ekPNC_BvKDBplR3dnnWM4892YkDyBXjMu8ySjCRSUxUecTFesBB2JOHYexYG5aow" />
+                <div class="absolute inset-0 flex flex-col items-center justify-center p-8 text-center"
+                    style="background:linear-gradient(150deg,#0b0b0b 0%,#1c1c1c 55%,#2a2418 100%)">
+                    <div class="text-[11px] font-bold uppercase tracking-[0.2em] text-[#D4AF37] mb-4">The Correction</div>
+                    <div class="text-7xl md:text-8xl font-black text-white leading-none tracking-tighter"><span class="text-4xl align-top">$</span>161</div>
+                    <div class="text-sm font-semibold text-gray-300 mt-3 max-w-[24ch] leading-snug">apparent gap citywide. Only $97 where the two actually compete.</div>
+                    <div class="w-16 h-px bg-[#D4AF37]/50 my-5"></div>
+                    <div class="flex gap-6 text-center">
+                        <div>
+                            <div class="text-2xl font-black text-white">$97</div>
+                            <div class="text-[10px] uppercase tracking-wider text-gray-400 mt-1">real gap</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-black text-white">40%</div>
+                            <div class="text-[10px] uppercase tracking-wider text-gray-400 mt-1">overstated</div>
+                        </div>
+                    </div>
+                </div>
 
 
 
@@ -469,9 +483,9 @@
 
 
                                 <span class="font-semibold text-gray-900 dark:text-white">The Question:</span>
-                                Hoteliers treat Airbnb as a single competitor, but that framing hides the real threat.
-                                Is NYC's short-term rental market casual homesharing &mdash; or a professionalized
-                                lodging industry operating outside hotel regulation?
+                                Airbnb is widely described as costing about half what a hotel does. If that is accurate, hotels
+                                face real pressure to cut prices. The question is whether a citywide average is a fair
+                                way to measure it.
 
 
 
@@ -508,10 +522,9 @@
 
 
                                 <span class="font-semibold text-gray-900 dark:text-white">The Analysis:</span>
-                                Built a reproducible Python (pandas) pipeline against 30,259 live NYC listings from
-                                Inside Airbnb &mdash; cleaning currency strings, resolving schema differences, and
-                                validating null rates and outliers before analysis. Segmented supply by host portfolio
-                                size to separate individual hosts from commercial operators.
+                                Pulled 30,259 real NYC Airbnb listings and cleaned them in Python, fixing price formats, checking
+                                for missing data, and setting aside a small number of extreme listings that would distort
+                                the average. Then compared the results against official NYC hotel rates.
 
 
 
@@ -548,16 +561,17 @@
 
 
                                 <span class="font-semibold text-gray-900 dark:text-white">The Finding:</span>
-                                56% of listings belong to hosts operating multiple properties, and 56% are entire homes.
-                                One third of all supply (10,081 listings) comes from hosts with 6+ properties &mdash;
-                                and that tier commands the highest median rate of any host segment at $209/night.<br />
+                                The real difference is $97, not the $161 most comparisons report. Hotels average $334 a night,
+                                and a typical Manhattan Airbnb is $237. The larger figure appears only when you average
+                                all five boroughs together and count private rooms ($102) alongside entire homes ($221).
+                                A private room is not what a hotel competes with.<br />
 
 
 
-                                <span class="font-semibold text-gray-900 dark:text-white mt-2 block">Strategic
-                                    Implication:</span> The competitor is not a spare bedroom &mdash; it is a distributed
-                                hotel business. Compete on service consistency, trust, and loyalty economics, not on
-                                nightly rate.
+                                <span class="font-semibold text-gray-900 dark:text-white mt-2 block">What to do
+                                    about it:</span> Hotels should not panic and cut prices to compete. The $161 figure
+                                overstates the pressure. Compare against listings in your own market, and price against
+                                that.
 
 
 
@@ -589,212 +603,7 @@
 
 
 
-    <section class="bg-star-pattern bg-cover bg-fixed py-20 text-white">
-
-
-
-        <div class="max-w-7xl mx-auto px-4">
-
-
-
-            <h2
-                class="text-3xl md:text-5xl font-black text-center mb-16 tracking-tight uppercase transition-all duration-300 hover:scale-[1.02] cursor-pointer">
-
-
-
-                The Strategic Approach (S.T.A.R.)
-
-
-
-            </h2>
-
-
-
-            <div class="grid md:grid-cols-4 gap-8">
-
-
-
-                <div
-                    class="bg-white/5 backdrop-blur-sm p-6 rounded-lg border-t-4 border-text-gold hover:bg-white/10 transition-all duration-300 hover:scale-105 hover:shadow-2xl cursor-pointer">
-
-
-
-                    <div class="flex items-center gap-2 mb-4">
-
-
-
-                        <span class="material-symbols-outlined text-text-gold">push_pin</span>
-
-
-
-                        <h3 class="font-bold text-text-gold uppercase tracking-wider text-sm">01. Situation</h3>
-
-
-
-                    </div>
-
-
-
-                    <h4 class="font-bold text-lg mb-2 text-white">Panic Pricing</h4>
-
-
-
-                    <p class="text-gray-300 text-sm leading-relaxed">
-
-
-
-                        Stakeholders reacted to Airbnb's growth with reactive price cuts, lacking visibility into
-                        whether they were losing customers to Airbnb or simply facing different demand patterns. This
-                        "Data Blindspot" threatened brand equity.
-
-
-
-                    </p>
-
-
-
-                </div>
-
-
-
-                <div
-                    class="bg-white/5 backdrop-blur-sm p-6 rounded-lg border-t-4 border-white hover:bg-white/10 transition-all duration-300 hover:scale-105 hover:shadow-2xl cursor-pointer">
-
-
-
-                    <div class="flex items-center gap-2 mb-4">
-
-
-
-                        <span class="material-symbols-outlined text-white">track_changes</span>
-
-
-
-                        <h3 class="font-bold text-white uppercase tracking-wider text-sm">02. Task</h3>
-
-
-
-                    </div>
-
-
-
-                    <h4 class="font-bold text-lg mb-2 text-white">Substitute vs. Segment</h4>
-
-
-
-                    <p class="text-gray-300 text-sm leading-relaxed">
-
-
-
-                        The mission was to validate: Is Airbnb a direct <strong class="text-white">"Substitute"</strong>
-                        (requiring aggressive price wars) or a distinct <strong class="text-white">"Market
-                            Segment"</strong> (requiring differentiation)?
-
-
-
-                    </p>
-
-
-
-                </div>
-
-
-
-                <div
-                    class="bg-white/5 backdrop-blur-sm p-6 rounded-lg border-t-4 border-secondary hover:bg-white/10 transition-all duration-300 hover:scale-105 hover:shadow-2xl cursor-pointer">
-
-
-
-                    <div class="flex items-center gap-2 mb-4">
-
-
-
-                        <span class="material-symbols-outlined text-secondary">settings</span>
-
-
-
-                        <h3 class="font-bold text-secondary uppercase tracking-wider text-sm">03. Action</h3>
-
-
-
-                    </div>
-
-
-
-                    <h4 class="font-bold text-lg mb-2 text-white">Dashboard Engineering</h4>
-
-
-
-                    <p class="text-gray-300 text-sm leading-relaxed">
-
-
-
-                        Built a reproducible <strong class="text-white">Python (pandas) pipeline</strong> against 30,259 live
-                        NYC listings. Validated data quality first &mdash; null rates, outliers, duplicates &mdash; then
-                        segmented supply by host portfolio size to separate individuals from commercial operators.
-
-
-
-                    </p>
-
-
-
-                </div>
-
-
-
-                <div
-                    class="bg-white/5 backdrop-blur-sm p-6 rounded-lg border-t-4 border-white hover:bg-white/10 transition-all duration-300 hover:scale-105 hover:shadow-2xl cursor-pointer">
-
-
-
-                    <div class="flex items-center gap-2 mb-4">
-
-
-
-                        <span class="material-symbols-outlined text-white">check_box</span>
-
-
-
-                        <h3 class="font-bold text-white uppercase tracking-wider text-sm">04. Result</h3>
-
-
-
-                    </div>
-
-
-
-                    <h4 class="font-bold text-lg mb-2 text-white">Distinct Segmentation</h4>
-
-
-
-                    <p class="text-gray-300 text-sm leading-relaxed">
-
-
-
-                        Established that the market is <strong class="text-white">majority commercial</strong>: 56% of listings
-                        come from multi-property hosts and 56% are entire homes &mdash; with the largest operators
-                        <strong class="text-white">charging the highest rates</strong>, not the lowest.
-
-
-
-                    </p>
-
-
-
-                </div>
-
-
-
-            </div>
-
-
-
-        </div>
-
-
-
-    </section>
+    
 
 
 
@@ -814,7 +623,7 @@
 
 
 
-                    Pricing Intelligence: Where the Market Concentrates
+                    What Airbnb Actually Costs, By Borough
 
 
 
@@ -826,7 +635,7 @@
 
 
 
-                    Median nightly rate by borough &mdash; Inside Airbnb open data, June 2026 snapshot (n = 30,259)
+                    Typical nightly price by borough. Inside Airbnb data, June 2026 (30,259 listings)
 
 
 
@@ -849,7 +658,7 @@
                         <span
                             class="text-[10px] font-bold mt-2 text-white text-center leading-tight group-hover:scale-y-[0.9] origin-top transition-transform">Private
                             Room
-                            (Median)</span>
+                            (Typical)</span>
                         <span
                             class="text-xl font-black text-white mt-1 group-hover:scale-y-[0.9] origin-top transition-transform">$102</span>
                     </div>
@@ -859,7 +668,7 @@
                         <span
                             class="text-[10px] font-bold mt-2 text-white text-center leading-tight group-hover:scale-y-[0.9] origin-top transition-transform">Entire
                             Home
-                            (Median)</span>
+                            (Typical)</span>
                         <span
                             class="text-xl font-black text-white mt-1 group-hover:scale-y-[0.9] origin-top transition-transform">$221</span>
                     </div>
@@ -905,8 +714,8 @@
 
 
 
-                            <strong>Manhattan (The Anchor):</strong> Median $237/night across 13,709 listings &mdash; the
-                            deepest and most expensive supply pool in the city.
+                            <strong>Manhattan:</strong> A typical listing runs $237 a night across 13,709 listings. It is the
+                            largest and highest-priced borough, and where hotels compete most directly.
 
 
 
@@ -930,8 +739,8 @@
 
 
 
-                            <strong>Commercial operators (6+ listings):</strong> 10,081 listings &mdash; a third of all supply &mdash;
-                            priced at a $209 median, above the citywide $173. Scale is being used to command a premium, not to discount.
+                            <strong>Professional operators (6+ listings):</strong> Charge $209, which is 21% more than the
+                            citywide $173 and the closest Airbnb comes to hotel pricing.
 
 
 
@@ -988,7 +797,7 @@
 
 
 
-                    Supply Concentration &amp; Host Professionalization
+                    Why the Citywide Average Is Misleading
 
 
 
@@ -1000,7 +809,7 @@
 
 
 
-                    Listings and median nightly rate by host portfolio size (Source: Inside Airbnb, June 2026)
+                    Typical price by host size. Hosts running places as a business charge more, not less (Inside Airbnb, June 2026)
 
 
 
@@ -1034,16 +843,16 @@
 
 
 
-                    <div class="text-5xl font-black text-red-500 mb-2 count-up" data-target="56">0%</div>
+                    <div class="text-5xl font-black text-red-500 mb-2 count-up" data-target="40">0%</div>
 
 
 
-                    <div class="text-lg font-bold text-gray-900 dark:text-white">Commercial Host Share</div>
+                    <div class="text-lg font-bold text-gray-900 dark:text-white">Gap Overstatement</div>
 
 
 
-                    <div class="text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wide">Multi-Property
-                        Hosts</div>
+                    <div class="text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wide">$161 vs
+                        $97 real</div>
 
 
 
@@ -1063,8 +872,8 @@
 
 
 
-                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Insight 01: The Summer Spike
-                        (Overlap):</h3>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Insight 01: Two filters change
+                        the answer:</h3>
 
 
 
@@ -1072,9 +881,9 @@
 
 
 
-                        Supply is concentrated: <strong class="text-gray-900 dark:text-white">Manhattan and Brooklyn hold
-                            80% of all listings</strong> (24,271 of 30,259), making them the only two boroughs where
-                        short-term rentals meaningfully pressure hotel demand.
+                        Location explains most of the difference. <strong class="text-gray-900 dark:text-white">A typical
+                            Manhattan Airbnb costs $237</strong>, far closer to hotel prices than the citywide $173.
+                        Manhattan also holds 13,709 of the city's 30,259 listings.
 
 
 
@@ -1090,8 +899,8 @@
 
 
 
-                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Insight 02: The Quality
-                        Trade-off:</h3>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Insight 02: Bigger hosts
+                        charge more:</h3>
 
 
 
@@ -1099,9 +908,9 @@
 
 
 
-                        Hosts with 6+ properties command a <strong class="text-gray-900 dark:text-white">$209 median rate
-                            &mdash; 21% above the citywide $173</strong>. Professional operators are not competing on
-                        price; they are capturing premium demand.
+                        Hosts with six or more listings charge <strong class="text-gray-900 dark:text-white">$209, which is
+                            21% more than the citywide $173</strong>. Professional operators price closer to hotels
+                        rather than undercutting them.
 
 
 
@@ -1122,9 +931,8 @@
 
 
 
-                        <span class="font-bold">✓ RECOMMENDATION:</span> Treat the top host tier as the true competitive set.
-                        Benchmark service and pricing against professional operators in Manhattan and Brooklyn, not
-                        against the long tail of single-listing hosts.
+                        <span class="font-bold">✓ RECOMMENDATION:</span> Filter on both borough and listing type before
+                        comparing. An entire home in Manhattan is the product a hotel actually competes with.
 
 
 
@@ -1144,14 +952,121 @@
 
 
 
+    </section>
+
+    <section class="bg-white dark:bg-[#1a1a1a] py-20">
+        <div class="max-w-6xl mx-auto px-4">
+
+            <div class="text-center mb-12">
+                <h2 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white uppercase mb-2">
+                    How the Gap Shrinks
+                </h2>
+                <p class="text-gray-500 dark:text-gray-400 font-medium">
+                    From $161 down to $97, as each step compares more similar options
+                </p>
+            </div>
+
+            <p class="text-center text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-10 text-sm leading-relaxed">
+                Read these left to right. Each step matches the comparison more closely on the two things that
+                drive price: which borough the listing is in, and whether it is a private room or an entire home.
+                The difference shrinks every time.
+            </p>
+
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+
+                <div class="bg-gray-50 dark:bg-[#252525] rounded-xl p-6 text-center border-t-4 border-primary">
+                    <p class="text-[10px] font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">01 &middot; Hotel Benchmark</p>
+                    <div class="text-4xl font-black text-primary tracking-tighter">$334</div>
+                    <p class="text-[11px] text-gray-500 dark:text-gray-400 mt-2 leading-snug">What hotels charge<br />per night, on average.</p>
+                </div>
+
+                <div class="bg-gray-50 dark:bg-[#252525] rounded-xl p-6 text-center border-t-4 border-gray-400">
+                    <p class="text-[10px] font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">02 &middot; Airbnb Citywide</p>
+                    <div class="text-4xl font-black text-gray-500 tracking-tighter">$173</div>
+                    <p class="text-[11px] text-gray-500 dark:text-gray-400 mt-2 leading-snug">All boroughs, all listing types<br />averaged together. <span class="text-red-500 font-bold">$161 difference</span></p>
+                </div>
+
+                <div class="bg-gray-50 dark:bg-[#252525] rounded-xl p-6 text-center border-t-4 border-secondary">
+                    <p class="text-[10px] font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">03 &middot; Same Borough</p>
+                    <div class="text-4xl font-black text-secondary tracking-tighter">$237</div>
+                    <p class="text-[11px] text-gray-500 dark:text-gray-400 mt-2 leading-snug">Manhattan, where most<br />hotels are. <span class="text-amber-600 dark:text-amber-500 font-bold">$97 difference</span></p>
+                </div>
+
+                <div class="bg-gray-900 dark:bg-black rounded-xl p-6 text-center border-t-4 border-[#D4AF37]">
+                    <p class="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">04 &middot; Large Operators</p>
+                    <div class="text-4xl font-black text-white tracking-tighter">$209</div>
+                    <p class="text-[11px] text-gray-400 mt-2 leading-snug">Hosts running 6+ places<br />as a business. <span class="text-[#D4AF37] font-bold">$125 difference</span></p>
+                </div>
+
+            </div>
+
+            <div class="bg-gray-900 dark:bg-black text-white p-6 rounded-xl mb-10">
+                <p class="text-sm leading-relaxed">
+                    <span class="font-black uppercase text-xs tracking-widest text-[#D4AF37]">Why this matters:</span><br />
+                    The $161 figure averages two different things at once. It mixes every borough together, and it
+                    mixes private rooms in with entire homes. A private room typically costs $102 and an entire home
+                    $221, and only the entire home competes with a hotel room. Match the borough and the difference
+                    drops to <strong>$97</strong>. A hotel that discounts against the
+                    $161 figure is responding to more competitive pressure than it actually faces.
+                </p>
+            </div>
+
+            <div class="bg-amber-50 dark:bg-amber-900/20 border-l-4 border-amber-500 p-5 mb-10 rounded-r-lg">
+                <p class="text-gray-800 dark:text-gray-200 text-sm leading-relaxed">
+                    <span class="font-bold uppercase text-xs tracking-wide">⚠ One important catch:</span><br />
+                    These two numbers are not measured the same way. The hotel figure counts rooms people
+                    <strong>actually paid for</strong>. The Airbnb figure is the price hosts are <strong>asking</strong>,
+                    which includes listings that may not book. The true difference is likely smaller than $97. This is a
+                    useful benchmark, not an exact comparison.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="font-black text-gray-900 dark:text-white uppercase text-sm tracking-wide mb-3">Why hotels can charge more</h3>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+                        NYC hotels were <strong class="text-gray-900 dark:text-white">84.1% full in 2025</strong>, the highest
+                        occupancy in the country for three years running, while charging a record $334 a night. Demand
+                        that strong does not call for a price cut.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="font-black text-gray-900 dark:text-white uppercase text-sm tracking-wide mb-3">What the law changed</h3>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+                        In 2023, <strong class="text-gray-900 dark:text-white">Local Law 18</strong> placed strict rules on
+                        short-term rentals in NYC, and the number of listings dropped afterward. Fewer listings means
+                        less pressure on hotel pricing, which helps explain why hotel rates have stayed high.
+                    </p>
+                </div>
+            </div>
+
+            <div class="mt-8 bg-gray-900 dark:bg-black text-white p-6 rounded-xl">
+                <p class="text-sm leading-relaxed">
+                    <span class="font-black uppercase text-xs tracking-widest text-[#D4AF37]">The bottom line:</span><br />
+                    Hotels do cost more. They are nearly full, and regulation has limited how many short-term rentals
+                    operate. But how much more depends entirely on the comparison. Citywide it looks like $161. Against
+                    comparable Manhattan listings it is $97. Pricing off the first number overstates the pressure hotels
+                    are actually under.
+                </p>
+            </div>
+
+        </div>
+
+        <p class="text-center text-[10px] text-gray-400 mt-10 max-w-4xl mx-auto px-4">
+            Hotel numbers come from the Office of the NY State Comptroller, <em>The Hotel Industry in New York City</em>
+            (Report 6-2027, July 2026), using CoStar and NYC Tourism data for 2025. Airbnb numbers come from Inside Airbnb's
+            NYC data, pulled 14 June 2026 (free to use with credit). The two sources cover different time periods and measure
+            price differently, so they are shown side by side as a benchmark rather than an exact comparison.
+        </p>
+
         <p class="text-center text-[10px] text-gray-400 mt-8 max-w-4xl mx-auto">
 
 
 
-            Data source: Inside Airbnb NYC snapshot, 14 June 2026 (CC BY 4.0), analyzed in Python/pandas &mdash; 30,259
-            listings, 90 fields. Methodology note: 28.9% of listings had no price on the scrape date and are excluded
-            from price statistics (n = 21,299 after also capping the top 1% above $1,714 to limit outlier distortion).
-            Median is used throughout because the price distribution is right-skewed. Supply counts use the full dataset.
+            Data: Inside Airbnb's NYC listings, pulled 14 June 2026 (free to use with credit), analyzed in Python.
+            30,259 listings across 90 fields. Notes on method: 28.9% of listings had no price listed that day, so price
+            figures are based on the 21,299 that did (after removing the most expensive 1%, above $1,714, which would skew
+            the average). "Typical price" means the median, used because a handful of luxury listings pull the average too high.
 
 
 
@@ -1189,7 +1104,7 @@
 
 
 
-                    Final Decision: Distinct Market Segmentation
+                    The Verdict: Two Different Markets
 
 
 
@@ -1201,7 +1116,7 @@
 
 
 
-                    Strategic Mandate &amp; Forward-Looking Protocol (Next Steps)
+                    What To Do Next
 
 
 
@@ -1235,8 +1150,8 @@
 
 
 
-                    <h3 class="text-center text-primary font-bold text-lg uppercase mt-6 mb-6 tracking-wider">The
-                        Defender Protocol</h3>
+                    <h3 class="text-center text-primary font-bold text-lg uppercase mt-6 mb-6 tracking-wider">For
+                        Hotels</h3>
 
 
 
@@ -1248,8 +1163,8 @@
 
 
 
-                            <strong class="text-gray-900 dark:text-white">• Target:</strong> Corporate &amp;
-                            High-Value Travelers.
+                            <strong class="text-gray-900 dark:text-white">• Guests:</strong> Business and
+                            higher-spend travelers.
 
 
 
@@ -1261,10 +1176,9 @@
 
 
 
-                            <strong class="text-gray-900 dark:text-white">• The Mandate:</strong> Maintain
-                            your <strong class="text-primary">service and trust advantage</strong>. Do not drop rates to
-                            match commercial operators. Your competitive advantage is <strong
-                                class="text-gray-900 dark:text-white">Service Consistency</strong>, not price.
+                            <strong class="text-gray-900 dark:text-white">• The Move:</strong> Hold prices. Hotels were
+                            <strong class="text-primary">84.1% full at a record $334 a night</strong>, and the $161
+                            figure overstates the competitive pressure by 40%.
 
 
 
@@ -1298,8 +1212,8 @@
 
 
 
-                    <h3 class="text-center text-secondary font-bold text-lg uppercase mt-6 mb-6 tracking-wider">The
-                        Attacker Reality</h3>
+                    <h3 class="text-center text-secondary font-bold text-lg uppercase mt-6 mb-6 tracking-wider">Tracking The
+                        Competition</h3>
 
 
 
@@ -1311,8 +1225,8 @@
 
 
 
-                            <strong class="text-gray-900 dark:text-white">• Target:</strong> Price-Sensitive
-                            Leisure Tourists.
+                            <strong class="text-gray-900 dark:text-white">• Guests:</strong> Leisure travelers
+                            comparing on price.
 
 
 
@@ -1324,9 +1238,9 @@
 
 
 
-                            <strong class="text-gray-900 dark:text-white">• The Mandate:</strong> Monitor
-                            the <strong class="text-secondary">6+ listing tier</strong> as the real benchmark. Their $209 median
-                            signals where professionalized supply is capturing premium demand.
+                            <strong class="text-gray-900 dark:text-white">• The Move:</strong> Track
+                            <strong class="text-secondary">Manhattan listings ($237) and professional operators
+                            ($209)</strong>, and set prices against those rather than the citywide average.
 
 
 
@@ -1370,8 +1284,8 @@
 
 
 
-            <h3 class="text-2xl md:text-3xl font-black text-center text-text-gold mb-16 uppercase tracking-wider">Risk
-                Mitigation &amp; Next Steps</h3>
+            <h3 class="text-2xl md:text-3xl font-black text-center text-text-gold mb-16 uppercase tracking-wider">What To Watch
+                Going Forward</h3>
 
 
 
@@ -1391,7 +1305,7 @@
 
 
 
-                        <h4 class="font-bold text-lg uppercase mb-1">01. The Summer Risk:</h4>
+                        <h4 class="font-bold text-lg uppercase mb-1">01. Match Borough And Listing Type:</h4>
 
 
 
@@ -1399,8 +1313,9 @@
 
 
 
-                            Competitive overlap spikes during <strong class="text-white">Jun-Aug</strong>. Maintain Rate
-                            Integrity and use Airbnb as a strategic volume valve.
+                            Compare entire homes in Manhattan, not the citywide average. A typical Manhattan
+                            listing runs <strong class="text-white">$237</strong>, and entire homes citywide run
+                            <strong class="text-white">$221</strong>.
 
 
 
@@ -1428,7 +1343,7 @@
 
 
 
-                        <h4 class="font-bold text-lg uppercase mb-1">02. Deploy Dashboard:</h4>
+                        <h4 class="font-bold text-lg uppercase mb-1">02. Track The Right Segment:</h4>
 
 
 
@@ -1436,8 +1351,8 @@
 
 
 
-                            Integrate the Tableau dashboard into weekly meetings to monitor the "Yield Gap" vs. Market
-                            Volatility.
+                            Monitor listings from hosts running six or more properties. At
+                            <strong class="text-white">$209</strong>, they price closest to hotels.
 
 
 
@@ -1465,7 +1380,7 @@
 
 
 
-                        <h4 class="font-bold text-lg uppercase mb-1">03. Yield Fencing:</h4>
+                        <h4 class="font-bold text-lg uppercase mb-1">03. Retire The Citywide Average:</h4>
 
 
 
@@ -1473,8 +1388,8 @@
 
 
 
-                            Restrict discounts during Peak Seasons. Strategically redirect price-sensitive demand to the
-                            Airbnb segment.
+                            Stop using the $173 figure for pricing decisions. It blends five boroughs and
+                            two different products, private rooms and entire homes, into a single number.
 
 
 
@@ -1501,7 +1416,7 @@
 
                 <div class="mb-4 md:mb-0">
                     <p class="text-lg font-medium text-gray-300">Tamira Carter <span class="text-gray-500 mx-2">|</span>
-                        <span class="text-gray-400 text-sm uppercase tracking-wider">Market Strategy Consultant</span>
+                        <span class="text-gray-400 text-sm uppercase tracking-wider">Data &amp; Insights Analyst</span>
                     </p>
                 </div>
 
@@ -1613,7 +1528,7 @@
             x:{grid:{display:false},ticks:{font:{weight:'600',size:12}}}}}
       });
 
-      /* CHART 2 — Real supply & pricing by host portfolio size */
+      /* CHART 2 — Median Airbnb price by operator size (real data) */
       var tiers=['Single listing','2\u20135 listings','6+ listings'];
       var tierCounts=[13274,6904,10081];
       var tierPrice=[173,147,209];

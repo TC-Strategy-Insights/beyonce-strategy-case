@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NYC Airbnb vs. Hotels | Interactive Explorer</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  body{font-family:'Inter',system-ui,sans-serif;background:#050505;color:#fff}
+  .gold{color:#D4AF37}.bg-gold{background:#D4AF37}
+  .chip{transition:all .18s ease;cursor:pointer;user-select:none}
+  .chip:hover{border-color:#D4AF37}
+  .chip.on{background:#D4AF37;color:#050505;border-color:#D4AF37;font-weight:700}
+  .num{font-variant-numeric:tabular-nums;transition:color .2s}
+  .flash{animation:fl .5s ease}
+  @keyframes fl{0%{opacity:.35}100%{opacity:1}}
+</style>
+</head>
+<body class="antialiased">
+<div class="max-w-6xl mx-auto px-4 py-10">
+
+  <div class="mb-8">
+    <p class="text-[11px] font-bold uppercase tracking-[0.2em] gold mb-3">Interactive &middot; Inside Airbnb, June 2026</p>
+    <h1 class="text-3xl md:text-5xl font-black tracking-tight leading-tight mb-3">Compare the right listings</h1>
+    <p class="text-gray-400 text-base md:text-lg max-w-2xl leading-relaxed">
+      NYC hotels averaged <span class="text-white font-semibold">$333.71</span> a night in 2025. How much cheaper is
+      Airbnb? It depends entirely on which listings you count. Filter below and watch the gap move.
+    </p>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="bg-[#0e0e0e] border border-gray-800 rounded-2xl p-6 mb-6">
+    <div class="mb-5">
+      <p class="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-3">Borough</p>
+      <div id="boroughChips" class="flex flex-wrap gap-2"></div>
+    </div>
+    <div>
+      <p class="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-3">Listing type</p>
+      <div id="roomChips" class="flex flex-wrap gap-2"></div>
+    </div>
+  </div>
+
+  <!-- KPIs -->
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+    <div class="bg-[#0e0e0e] border border-gray-800 rounded-2xl p-5">
+      <p class="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-2">Hotel benchmark</p>
+      <div class="text-3xl md:text-4xl font-black num text-gray-400">$334</div>
+      <p class="text-[11px] text-gray-600 mt-2">NY State Comptroller, 2025</p>
+    </div>
+    <div class="bg-[#0e0e0e] border border-gray-800 rounded-2xl p-5">
+      <p class="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-2">Airbnb median</p>
+      <div id="kMedian" class="text-3xl md:text-4xl font-black num gold">$175</div>
+      <p id="kN" class="text-[11px] text-gray-600 mt-2">21,515 listings</p>
+    </div>
+    <div class="bg-[#0e0e0e] border-2 border-[#D4AF37] rounded-2xl p-5">
+      <p class="text-[10px] font-bold uppercase tracking-widest gold mb-2">The gap</p>
+      <div id="kGap" class="text-3xl md:text-4xl font-black num text-white">$159</div>
+      <p id="kGapPct" class="text-[11px] text-gray-500 mt-2">48% below hotels</p>
+    </div>
+    <div class="bg-[#0e0e0e] border border-gray-800 rounded-2xl p-5">
+      <p class="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-2">Typical range</p>
+      <div id="kRange" class="text-xl md:text-2xl font-black num text-white">$97&ndash;$303</div>
+      <p class="text-[11px] text-gray-600 mt-2">25th to 75th percentile</p>
+    </div>
+  </div>
+
+  <!-- READOUT -->
+  <div class="bg-[#0e0e0e] border border-gray-800 rounded-2xl p-6 mb-6">
+    <p id="readout" class="text-sm md:text-base text-gray-300 leading-relaxed"></p>
+  </div>
+
+  <!-- CHARTS -->
+  <div class="grid lg:grid-cols-2 gap-6 mb-6">
+    <div class="bg-[#0e0e0e] border border-gray-800 rounded-2xl p-6">
+      <h2 class="font-bold text-sm uppercase tracking-wide mb-1">Gap to hotel rate</h2>
+      <p class="text-[11px] text-gray-500 mb-4">Current selection vs. the $334 hotel benchmark</p>
+      <div style="position:relative;height:230px"><canvas id="gapChart"></canvas></div>
+    </div>
+    <div class="bg-[#0e0e0e] border border-gray-800 rounded-2xl p-6">
+      <h2 class="font-bold text-sm uppercase tracking-wide mb-1">Median by borough</h2>
+      <p id="boroChartSub" class="text-[11px] text-gray-500 mb-4">All listing types</p>
+      <div style="position:relative;height:230px"><canvas id="boroChart"></canvas></div>
+    </div>
+  </div>
+
+  <p class="text-[11px] text-gray-600 leading-relaxed border-t border-gray-800 pt-5">
+    Airbnb figures: Inside Airbnb NYC listings, pulled 14 June 2026 (free to use with credit), analyzed in Python.
+    21,515 listings with a published price, out of 30,259 total. Median is used because a small number of very
+    expensive listings pull the average upward. Hotel figure: Office of the NY State Comptroller, <em>The Hotel
+    Industry in New York City</em> (July 2026), for calendar year 2025. The hotel number counts rooms actually sold;
+    the Airbnb number reflects asking prices, so the true difference is likely smaller than shown.
+  </p>
+</div>
+
+<script>
+const DATA = [{"borough":"All","room_type":"All","n":21515,"median":174.69,"p25":96.88,"p75":302.72},{"borough":"All","room_type":"Entire home/apt","n":11537,"median":222.87,"p25":146.93,"p75":357.4},{"borough":"All","room_type":"Hotel room","n":480,"median":447.0,"p25":273.0,"p75":771.11},{"borough":"All","room_type":"Private room","n":9306,"median":102.97,"p25":66.55,"p75":200.63},{"borough":"All","room_type":"Shared room","n":192,"median":54.66,"p25":42.44,"p75":148.0},{"borough":"Bronx","room_type":"All","n":826,"median":106.38,"p25":67.51,"p75":163.39},{"borough":"Bronx","room_type":"Entire home/apt","n":322,"median":137.53,"p25":107.39,"p75":201.74},{"borough":"Bronx","room_type":"Private room","n":502,"median":78.12,"p25":54.41,"p75":127.75},{"borough":"Bronx","room_type":"Shared room","n":2,"median":53.41,"p25":42.4,"p75":64.43},{"borough":"Brooklyn","room_type":"All","n":7239,"median":151.44,"p25":84.83,"p75":250.73},{"borough":"Brooklyn","room_type":"Entire home/apt","n":3582,"median":198.31,"p25":138.3,"p75":313.77},{"borough":"Brooklyn","room_type":"Hotel room","n":43,"median":399.0,"p25":235.0,"p75":442.85},{"borough":"Brooklyn","room_type":"Private room","n":3520,"median":92.48,"p25":64.17,"p75":177.29},{"borough":"Brooklyn","room_type":"Shared room","n":94,"median":51.33,"p25":44.51,"p75":145.49},{"borough":"Manhattan","room_type":"All","n":9539,"median":240.56,"p25":143.83,"p75":414.0},{"borough":"Manhattan","room_type":"Entire home/apt","n":6138,"median":262.0,"p25":177.0,"p75":427.49},{"borough":"Manhattan","room_type":"Hotel room","n":346,"median":473.76,"p25":290.0,"p75":863.36},{"borough":"Manhattan","room_type":"Private room","n":3004,"median":154.08,"p25":84.95,"p75":328.67},{"borough":"Manhattan","room_type":"Shared room","n":51,"median":61.24,"p25":36.88,"p75":107.84},{"borough":"Queens","room_type":"All","n":3615,"median":120.04,"p25":71.84,"p75":194.0},{"borough":"Queens","room_type":"Entire home/apt","n":1361,"median":160.84,"p25":116.86,"p75":239.63},{"borough":"Queens","room_type":"Hotel room","n":91,"median":408.0,"p25":240.5,"p75":578.5},{"borough":"Queens","room_type":"Private room","n":2121,"median":83.82,"p25":59.33,"p75":146.07},{"borough":"Queens","room_type":"Shared room","n":42,"median":99.81,"p25":34.07,"p75":208.98},{"borough":"Staten Island","room_type":"All","n":296,"median":107.3,"p25":77.06,"p75":161.78},{"borough":"Staten Island","room_type":"Entire home/apt","n":134,"median":117.14,"p25":91.57,"p75":165.65},{"borough":"Staten Island","room_type":"Private room","n":159,"median":94.76,"p25":61.69,"p75":160.0},{"borough":"Staten Island","room_type":"Shared room","n":3,"median":94.3,"p25":92.8,"p75":151.22}];
+const HOTEL = 333.71;
+const BOROUGHS = ['All','Manhattan','Brooklyn','Queens','Bronx','Staten Island'];
+const ROOMS = ['All','Entire home/apt','Private room','Hotel room','Shared room'];
+const ROOM_LABEL = {'All':'All types','Entire home/apt':'Entire home','Private room':'Private room','Hotel room':'Hotel room','Shared room':'Shared room'};
+let selB='All', selR='All';
+
+function find(b,r){ return DATA.find(x=>x.borough===b && x.room_type===r) || null; }
+const money = v => '$'+Math.round(v).toLocaleString();
+
+function chips(el, items, get, set, labelMap){
+  el.innerHTML='';
+  items.forEach(v=>{
+    if(!DATA.some(x=> (el.id==='boroughChips' ? x.borough===v : x.room_type===v))) return;
+    const b=document.createElement('button');
+    b.className='chip px-4 py-2 rounded-full border border-gray-700 text-xs md:text-sm text-gray-300';
+    b.textContent = labelMap ? (labelMap[v]||v) : v;
+    if(get()===v) b.classList.add('on');
+    b.onclick=()=>{ set(v); render(); };
+    el.appendChild(b);
+  });
+}
+
+let gapChart, boroChart;
+
+function render(){
+  chips(document.getElementById('boroughChips'), BOROUGHS, ()=>selB, v=>selB=v, null);
+  chips(document.getElementById('roomChips'), ROOMS, ()=>selR, v=>selR=v, ROOM_LABEL);
+
+  let rec = find(selB, selR);
+  if(!rec){ // fall back if combination has no data
+    selR='All'; rec=find(selB,'All');
+  }
+  const gap = HOTEL - rec.median;
+  const pct = Math.round((1 - rec.median/HOTEL)*100);
+
+  const med=document.getElementById('kMedian'), g=document.getElementById('kGap');
+  med.textContent=money(rec.median); g.textContent=money(gap);
+  document.getElementById('kN').textContent = rec.n.toLocaleString()+' listings';
+  document.getElementById('kGapPct').textContent = pct+'% below hotels';
+  document.getElementById('kRange').textContent = money(rec.p25)+'\u2013'+money(rec.p75);
+  [med,g].forEach(e=>{ e.classList.remove('flash'); void e.offsetWidth; e.classList.add('flash'); });
+
+  const base = find('All','All').median;
+  const baseGap = HOTEL - base;
+  const scope = (selB==='All'?'Citywide':selB) + ', ' + (ROOM_LABEL[selR]||selR).toLowerCase();
+  let msg = '<strong class="text-white">'+scope+':</strong> a typical listing runs '+money(rec.median)+
+            ' a night across '+rec.n.toLocaleString()+' listings, putting it '+money(gap)+' below the hotel rate.';
+  if(selB!=='All' || selR!=='All'){
+    const diff = Math.round((1 - gap/baseGap)*100);
+    if(diff > 3) msg += ' That is <strong class="gold">'+diff+'% smaller</strong> than the '+money(baseGap)+' gap you get comparing all of NYC at once.';
+    else if(diff < -3) msg += ' That is <strong class="text-white">wider</strong> than the '+money(baseGap)+' citywide gap.';
+  } else {
+    msg += ' Try Manhattan and Entire home to see how much this changes.';
+  }
+  document.getElementById('readout').innerHTML = msg;
+
+  // gap chart
+  const gd={labels:['Hotel','Airbnb (selected)'],datasets:[{data:[HOTEL,rec.median],
+    backgroundColor:['#4B5563','#D4AF37'],borderRadius:6,barPercentage:.6}]};
+  const gopt={responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{backgroundColor:'#000',padding:11,cornerRadius:8,
+      callbacks:{label:c=>' '+money(c.parsed.y)+' per night'}}},
+    scales:{y:{beginAtZero:true,grid:{color:'#1f2937'},ticks:{color:'#9CA3AF',callback:v=>'$'+v}},
+            x:{grid:{display:false},ticks:{color:'#E5E7EB',font:{weight:'600'}}}}};
+  if(gapChart){ gapChart.data=gd; gapChart.update(); } else { gapChart=new Chart(document.getElementById('gapChart'),{type:'bar',data:gd,options:gopt}); }
+
+  // borough chart (respects room-type filter)
+  const bs=BOROUGHS.filter(b=>b!=='All');
+  const vals=bs.map(b=>{const x=find(b,selR)||find(b,'All'); return x?x.median:null;});
+  const bd={labels:bs,datasets:[{data:vals,
+    backgroundColor:bs.map(b=>b===selB?'#D4AF37':'#374151'),borderRadius:5,barPercentage:.65}]};
+  const bopt={responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{backgroundColor:'#000',padding:11,cornerRadius:8,
+      callbacks:{label:c=>{const x=find(bs[c.dataIndex],selR)||find(bs[c.dataIndex],'All');
+        return [' Median '+money(c.parsed.y), ' '+x.n.toLocaleString()+' listings', ' Gap '+money(HOTEL-c.parsed.y)];}}}},
+    onClick:(e,el)=>{ if(el.length){ selB=bs[el[0].index]; render(); } },
+    scales:{y:{beginAtZero:true,grid:{color:'#1f2937'},ticks:{color:'#9CA3AF',callback:v=>'$'+v}},
+            x:{grid:{display:false},ticks:{color:'#E5E7EB',font:{weight:'600',size:11}}}}};
+  document.getElementById('boroChartSub').textContent = selR==='All'?'All listing types':ROOM_LABEL[selR];
+  if(boroChart){ boroChart.data=bd; boroChart.options=bopt; boroChart.update(); }
+  else { boroChart=new Chart(document.getElementById('boroChart'),{type:'bar',data:bd,options:bopt}); }
+}
+render();
+</script>
+</body>
+</html>

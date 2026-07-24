@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Margin Recovery Model | Cardinal Hardware</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  body{font-family:'Inter',system-ui,sans-serif;background:#050505;color:#fff}
+  .gold{color:#D4AF37}
+  .num{font-variant-numeric:tabular-nums}
+  .flash{animation:fl .45s ease}
+  @keyframes fl{0%{opacity:.35}100%{opacity:1}}
+  input[type=range]{-webkit-appearance:none;appearance:none;background:transparent;cursor:pointer;width:100%}
+  input[type=range]::-webkit-slider-runnable-track{height:6px;background:#1f2937;border-radius:99px}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;height:20px;width:20px;border-radius:50%;
+    background:#D4AF37;margin-top:-7px;border:2px solid #050505}
+  input[type=range]::-moz-range-track{height:6px;background:#1f2937;border-radius:99px}
+  input[type=range]::-moz-range-thumb{height:20px;width:20px;border-radius:50%;background:#D4AF37;border:2px solid #050505}
+  .pill{transition:all .18s ease;cursor:pointer;user-select:none}
+  .pill:hover{border-color:#D4AF37}
+  .pill.on{background:#D4AF37;color:#050505;border-color:#D4AF37;font-weight:700}
+</style>
+</head>
+<body class="antialiased">
+<div class="max-w-6xl mx-auto px-4 py-10">
+
+  <div class="mb-8">
+    <p class="text-[11px] font-bold uppercase tracking-[0.2em] gold mb-3">Interactive &middot; Cardinal Hardware</p>
+    <h1 class="text-3xl md:text-5xl font-black tracking-tight leading-tight mb-3">A cost shock, and what pricing recovered</h1>
+    <p class="text-gray-400 text-base md:text-lg max-w-2xl leading-relaxed">
+      Supplier inflation added <span class="text-white font-semibold">$727k</span> in cost across
+      <span class="text-white font-semibold">236,028 units</span>. Pricing action generated
+      <span class="text-white font-semibold">$1.32M</span>, leaving
+      <span class="gold font-semibold">$598k</span> of margin. Move the dial to see how sensitive that outcome is.
+    </p>
+  </div>
+
+  <!-- PER-UNIT ECONOMICS -->
+  <div class="grid grid-cols-3 gap-4 mb-6">
+    <div class="bg-[#0e0e0e] border border-gray-800 rounded-2xl p-5">
+      <p class="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-2">Cost added</p>
+      <div class="text-2xl md:text-3xl font-black num text-red-400">$3.08</div>
+      <p class="text-[11px] text-gray-600 mt-2">per unit, from inflation</p>
+    </div>
+    <div class="bg-[#0e0e0e] border border-gray-800 rounded-2xl p-5">
+      <p class="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-2">Price captured</p>
+      <div class="text-2xl md:text-3xl font-black num gold">$5.61</div>
+      <p class="text-[11px] text-gray-600 mt-2">per unit, from repricing</p>
+    </div>
+    <div class="bg-[#0e0e0e] border border-gray-800 rounded-2xl p-5">
+      <p class="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-2">Net margin</p>
+      <div class="text-2xl md:text-3xl font-black num text-white">$2.53</div>
+      <p class="text-[11px] text-gray-600 mt-2">per unit retained</p>
+    </div>
+  </div>
+
+  <!-- MODEL -->
+  <div class="bg-[#0e0e0e] border border-gray-800 rounded-2xl p-6 mb-6">
+    <div class="flex flex-wrap items-baseline justify-between gap-3 mb-1">
+      <h2 class="font-bold text-sm uppercase tracking-wide">Volume retained after the price increase</h2>
+      <span class="text-[11px] text-gray-500">Drag to test the assumption</span>
+    </div>
+    <p class="text-[11px] text-gray-500 mb-5 max-w-3xl leading-relaxed">
+      The delivered result assumed volume held. If customers walk after a price rise, both the pricing revenue and the
+      units carrying the cost shrink together. This shows how much volume loss the strategy could absorb before the
+      margin gain disappears.
+    </p>
+
+    <div class="flex items-center gap-4 mb-6">
+      <span class="text-[11px] text-gray-500 whitespace-nowrap">70%</span>
+      <input id="volSlider" type="range" min="70" max="100" step="1" value="100">
+      <span class="text-[11px] text-gray-500 whitespace-nowrap">100%</span>
+    </div>
+
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      <div>
+        <p class="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1">Volume retained</p>
+        <div id="mVol" class="text-2xl md:text-3xl font-black num text-white">100%</div>
+        <p id="mUnits" class="text-[11px] text-gray-600 mt-1">236,028 units</p>
+      </div>
+      <div>
+        <p class="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1">Pricing revenue</p>
+        <div id="mRev" class="text-2xl md:text-3xl font-black num gold">$1.33M</div>
+      </div>
+      <div>
+        <p class="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1">Inflation cost</p>
+        <div id="mCost" class="text-2xl md:text-3xl font-black num text-red-400">$727K</div>
+      </div>
+      <div>
+        <p class="text-[10px] font-bold uppercase tracking-widest gold mb-1">Margin retained</p>
+        <div id="mNet" class="text-2xl md:text-3xl font-black num text-white">$598K</div>
+      </div>
+    </div>
+
+    <div style="position:relative;height:250px"><canvas id="waterfall"></canvas></div>
+  </div>
+
+  <!-- READOUT -->
+  <div class="bg-[#0e0e0e] border border-gray-800 rounded-2xl p-6 mb-6">
+    <p id="readout" class="text-sm md:text-base text-gray-300 leading-relaxed"></p>
+  </div>
+
+  <!-- TIERS + SUPPLIER -->
+  <div class="grid lg:grid-cols-2 gap-6 mb-6">
+    <div class="bg-[#0e0e0e] border border-gray-800 rounded-2xl p-6">
+      <h2 class="font-bold text-sm uppercase tracking-wide mb-1">The tiered increase</h2>
+      <p class="text-[11px] text-gray-500 mb-5">Each tier was priced to how sensitive its customers were</p>
+      <div class="space-y-3">
+        <div class="flex items-center gap-4 p-3 rounded-xl border border-gray-800">
+          <div class="text-2xl font-black num text-gray-300 w-16">+5%</div>
+          <div class="flex-1">
+            <p class="font-bold text-sm">Commodity</p>
+            <p class="text-[11px] text-gray-500">High sensitivity. A light touch keeps units moving.</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-4 p-3 rounded-xl border border-gray-800">
+          <div class="text-2xl font-black num gold w-16">+10%</div>
+          <div class="flex-1">
+            <p class="font-bold text-sm">Core</p>
+            <p class="text-[11px] text-gray-500">Medium sensitivity. The revenue engine.</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-4 p-3 rounded-xl border border-gray-800">
+          <div class="text-2xl font-black num text-red-400 w-16">+15%</div>
+          <div class="flex-1">
+            <p class="font-bold text-sm">Specialty</p>
+            <p class="text-[11px] text-gray-500">Low sensitivity. Few substitutes, so price holds.</p>
+          </div>
+        </div>
+      </div>
+      <p class="text-[11px] text-gray-600 mt-5 leading-relaxed">
+        A single blanket increase would have either lost commodity volume or left specialty margin on the table.
+      </p>
+    </div>
+
+    <div class="bg-[#0e0e0e] border border-gray-800 rounded-2xl p-6">
+      <h2 class="font-bold text-sm uppercase tracking-wide mb-1">Where the cost came from</h2>
+      <p class="text-[11px] text-gray-500 mb-5">Supplier volume by country, 236,028 units</p>
+      <div style="position:relative;height:230px"><canvas id="supplier"></canvas></div>
+    </div>
+  </div>
+
+  <p class="text-[11px] text-gray-600 leading-relaxed border-t border-gray-800 pt-5">
+    Source: Financial Impact Analysis, Internal Vendor Data, and Pricing Elasticity Model &amp; SKU Analysis (2024).
+    Per-unit figures are calculated by dividing the published totals by 236,028 units. The volume slider is a
+    <strong>sensitivity test</strong>, not a delivered result: it scales pricing revenue and inflation cost together
+    with retained volume to show how much customer loss the strategy could absorb. It assumes loss is spread evenly
+    across tiers, since unit volumes per tier are not published. Profit figures are contribution-margin based and
+    rounded; $1.32M reflects incremental pricing revenue.
+  </p>
+</div>
+
+<script>
+const UNITS = 236028;
+const COST_PER_UNIT = 727000/UNITS;    // 3.0801
+const REV_PER_UNIT  = 1325000/UNITS;   // 5.6138
+const BASE_REV = 1325000, BASE_COST = 727000, BASE_NET = 598000;
+
+const money = v => {
+  const a = Math.abs(v);
+  if(a >= 1e6) return (v<0?'-':'')+'$'+(a/1e6).toFixed(2)+'M';
+  if(a >= 1e3) return (v<0?'-':'')+'$'+Math.round(a/1e3)+'K';
+  return (v<0?'-':'')+'$'+Math.round(a);
+};
+
+let wf, sup;
+
+function calc(volPct){
+  const f = volPct/100;
+  const units = Math.round(UNITS*f);
+  const rev = REV_PER_UNIT*units;
+  const cost = COST_PER_UNIT*units;
+  return {units, rev, cost, net: rev-cost, f};
+}
+
+function render(){
+  const v = +document.getElementById('volSlider').value;
+  const r = calc(v);
+
+  document.getElementById('mVol').textContent = v+'%';
+  document.getElementById('mUnits').textContent = r.units.toLocaleString()+' units';
+  document.getElementById('mRev').textContent = money(r.rev);
+  document.getElementById('mCost').textContent = money(r.cost);
+  const netEl = document.getElementById('mNet');
+  netEl.textContent = money(r.net);
+  netEl.className = 'text-2xl md:text-3xl font-black num ' + (r.net>0?'text-white':'text-red-400');
+  netEl.classList.remove('flash'); void netEl.offsetWidth; netEl.classList.add('flash');
+
+  // waterfall: revenue up, cost down, net total
+  const data = {
+    labels:['Pricing revenue','Inflation cost','Margin retained'],
+    datasets:[{
+      data:[[0,r.rev],[r.rev-r.cost, r.rev],[0,r.net]],
+      backgroundColor:['#D4AF37','#EF4444', r.net>0?'#E5E7EB':'#EF4444'],
+      borderRadius:5, barPercentage:.6, borderSkipped:false
+    }]
+  };
+  const deltas = ['+'+money(r.rev), '-'+money(r.cost), (r.net>=0?'+':'')+money(r.net)];
+  const opt = {
+    responsive:true, maintainAspectRatio:false,
+    plugins:{legend:{display:false},
+      tooltip:{backgroundColor:'#000',padding:11,cornerRadius:8,
+        callbacks:{ title:it=>data.labels[it[0].dataIndex], label:c=>' '+deltas[c.dataIndex] }}},
+    scales:{
+      y:{beginAtZero:true, grid:{color:'#1f2937'},
+         ticks:{color:'#9CA3AF', callback:val=>'$'+Math.round(val/1000)+'K'}},
+      x:{grid:{display:false}, ticks:{color:'#E5E7EB', font:{weight:'600', size:11}}}
+    }
+  };
+  if(wf){ wf.data=data; wf.options=opt; wf.update(); }
+  else { wf = new Chart(document.getElementById('waterfall'), {type:'bar', data, options:opt}); }
+
+  // readout
+  const lostUnits = UNITS - r.units;
+  const netDelta = r.net - BASE_NET;
+  let msg;
+  if(v === 100){
+    msg = '<strong class="text-white">At full volume:</strong> pricing generated '+money(r.rev)+
+          ' against '+money(r.cost)+' of added cost, retaining <strong class="gold">'+money(r.net)+
+          '</strong> of margin. Drag the slider to see how much customer loss this could absorb.';
+  } else {
+    msg = '<strong class="text-white">At '+v+'% volume:</strong> losing '+lostUnits.toLocaleString()+
+          ' units drops pricing revenue to '+money(r.rev)+' and reduces the cost base to '+money(r.cost)+
+          ', leaving <strong class="'+(r.net>0?'gold':'text-red-400')+'">'+money(r.net)+
+          '</strong> of margin, '+money(Math.abs(netDelta))+' '+(netDelta<0?'below':'above')+
+          ' the delivered result. Because cost and revenue scale together, the strategy stays profitable '+
+          'across this whole range, which is what makes it durable.';
+  }
+  document.getElementById('readout').innerHTML = msg;
+}
+
+document.getElementById('volSlider').addEventListener('input', render);
+
+// supplier donut
+sup = new Chart(document.getElementById('supplier'), {
+  type:'doughnut',
+  data:{labels:['China','Germany','USA'],
+    datasets:[{data:[123771,58003,54254],
+      backgroundColor:['#EF4444','#D4AF37','#6B7280'], borderColor:'#050505', borderWidth:3, hoverOffset:6}]},
+  options:{responsive:true, maintainAspectRatio:false, cutout:'62%',
+    plugins:{legend:{position:'bottom',
+        labels:{color:'#9CA3AF', padding:14, usePointStyle:true, pointStyle:'circle', font:{size:11}}},
+      tooltip:{backgroundColor:'#000', padding:11, cornerRadius:8,
+        callbacks:{label:c=>' '+c.label+': '+c.parsed.toLocaleString()+' units ('+
+          (c.parsed/UNITS*100).toFixed(1)+'%)'}}}},
+  plugins:[{id:'ctr', afterDraw(ch){
+    const {ctx, chartArea:a} = ch;
+    const x=(a.left+a.right)/2, y=(a.top+a.bottom)/2;
+    ctx.save(); ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.font='900 26px Inter, sans-serif'; ctx.fillStyle='#EF4444'; ctx.fillText('52.4%', x, y-8);
+    ctx.font='600 10px Inter, sans-serif'; ctx.fillStyle='#6B7280'; ctx.fillText('single source', x, y+13);
+    ctx.restore();
+  }}]
+});
+
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blush — UX Case Study | Tamira Carter</title>
+<meta name="description" content="A makeup tutorial platform designed around skill level. UX research, usability testing, and the findings that reshaped it.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0B0A0D;
+    --ink-2:#141218;
+    --ink-3:#1D1A22;
+    --line:#2A2630;
+    --paper:#F7F4F2;
+    --mute:#8B8494;
+    --mute-2:#B5AEBE;
+    --rose:#FF5C9E;
+    --lilac:#8B7BF0;
+    --peach:#FFAE7B;
+    --sun:#FFD84D;
+    --grad:linear-gradient(100deg,var(--lilac) 0%,var(--rose) 48%,var(--peach) 100%);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--ink);color:var(--paper);
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    -webkit-font-smoothing:antialiased;line-height:1.6;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--rose);color:var(--ink)}
+  a{color:inherit}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+  .narrow{max-width:720px}
+
+  /* ---------- type ---------- */
+  .display{
+    font-family:'Fraunces',Georgia,serif;font-weight:300;
+    letter-spacing:-.03em;line-height:.94;
+    font-variation-settings:'opsz' 144;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;
+    letter-spacing:.22em;text-transform:uppercase;color:var(--mute);
+  }
+  .lede{font-size:clamp(17px,2.1vw,21px);color:var(--mute-2);line-height:1.62}
+
+  /* ---------- hero ---------- */
+  header{
+    min-height:92vh;display:flex;flex-direction:column;justify-content:center;
+    position:relative;padding:120px 0 80px;
+  }
+  .halo{
+    position:absolute;inset:-20% -10% auto -10%;height:70vh;pointer-events:none;
+    background:radial-gradient(60% 60% at 30% 40%,rgba(139,123,240,.30),transparent 70%),
+               radial-gradient(50% 50% at 72% 30%,rgba(255,92,158,.26),transparent 70%);
+    filter:blur(20px);opacity:0;animation:halo 2.4s cubic-bezier(.22,1,.36,1) .1s forwards;
+  }
+  @keyframes halo{to{opacity:1}}
+  h1{margin:22px 0 0;font-size:clamp(64px,15vw,180px)}
+  h1 .l{display:inline-block;opacity:0;transform:translateY(.34em);
+    animation:rise .95s cubic-bezier(.16,1,.3,1) forwards}
+  @keyframes rise{to{opacity:1;transform:translateY(0)}}
+  .sub{
+    font-family:'Fraunces',serif;font-style:italic;font-weight:300;
+    font-size:clamp(22px,4.4vw,44px);letter-spacing:-.02em;
+    background:var(--grad);-webkit-background-clip:text;background-clip:text;
+    color:transparent;margin-top:-.04em;
+  }
+  .hero-meta{
+    display:flex;flex-wrap:wrap;gap:8px 34px;margin-top:44px;padding-top:24px;
+    border-top:1px solid var(--line);font-size:13px;color:var(--mute);
+  }
+  .hero-meta b{color:var(--paper);font-weight:600;display:block;font-size:12px;
+    font-family:'JetBrains Mono',monospace;letter-spacing:.06em;margin-bottom:3px}
+  .reveal{opacity:0;transform:translateY(26px);
+    transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1)}
+  .reveal.in{opacity:1;transform:none}
+
+  /* ---------- sections ---------- */
+  section{padding:110px 0;border-top:1px solid var(--line)}
+  .sec-head{display:flex;gap:14px;align-items:baseline;margin-bottom:14px}
+  h2{font-family:'Fraunces',serif;font-weight:400;letter-spacing:-.025em;
+    font-size:clamp(30px,5vw,52px);line-height:1.04;margin:0 0 20px}
+  h3{font-size:15px;font-weight:700;letter-spacing:-.01em;margin:0 0 8px}
+  p{margin:0 0 18px}
+
+  /* problem / goal */
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--line);
+    border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:36px}
+  .split>div{background:var(--ink-2);padding:32px 30px}
+  .split .k{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--rose);margin-bottom:14px}
+  .split .v{font-family:'Fraunces',serif;font-weight:300;font-size:clamp(19px,2.4vw,25px);
+    line-height:1.32;letter-spacing:-.02em;color:var(--paper)}
+
+  /* personas */
+  .personas{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:36px}
+  .persona{background:var(--ink-2);border:1px solid var(--line);border-radius:16px;
+    padding:30px;transition:border-color .3s ease,transform .3s cubic-bezier(.16,1,.3,1)}
+  .persona:hover{border-color:#3D3548;transform:translateY(-3px)}
+  .persona .nm{font-family:'Fraunces',serif;font-size:26px;font-weight:400;letter-spacing:-.02em}
+  .persona .rl{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--mute);
+    letter-spacing:.08em;margin:4px 0 18px}
+  .persona q{font-family:'Fraunces',serif;font-style:italic;font-weight:300;
+    font-size:17px;line-height:1.45;color:var(--mute-2);display:block;quotes:none}
+  .persona .need{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);
+    font-size:13.5px;color:var(--mute-2)}
+  .persona .need b{color:var(--paper);font-weight:600}
+
+  /* findings — the signature */
+  .findings{margin-top:44px;border-top:1px solid var(--line)}
+  .f{
+    display:grid;grid-template-columns:64px 1fr 1fr;gap:28px;align-items:start;
+    padding:34px 0;border-bottom:1px solid var(--line);position:relative;
+  }
+  .f::before{
+    content:"";position:absolute;left:0;top:-1px;height:1px;width:0;background:var(--grad);
+    transition:width 1.1s cubic-bezier(.16,1,.3,1);
+  }
+  .f.in::before{width:100%}
+  .f-n{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--mute);padding-top:5px}
+  .f-body h3{font-size:clamp(19px,2.3vw,25px);font-family:'Fraunces',serif;font-weight:400;
+    letter-spacing:-.02em;line-height:1.2;margin-bottom:10px}
+  .f-body p{font-size:14.5px;color:var(--mute-2);margin:0}
+  .f-ev{border-left:2px solid var(--line);padding-left:20px}
+  .f-ev q{display:block;font-family:'Fraunces',serif;font-style:italic;font-weight:300;
+    font-size:16px;line-height:1.46;color:var(--paper);quotes:none;margin-bottom:12px}
+  .f-ev q:last-of-type{margin-bottom:0}
+  .tag{display:inline-flex;align-items:center;gap:7px;margin-top:14px;
+    font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--rose)}
+  .tag i{width:5px;height:5px;border-radius:50%;background:var(--rose);display:inline-block}
+
+  /* changes */
+  .changes{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;background:var(--line);
+    border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:36px}
+  .ch{background:var(--ink-2);padding:28px 26px}
+  .ch .from{font-size:13px;color:var(--mute);text-decoration:line-through;
+    text-decoration-color:var(--rose);text-decoration-thickness:1px}
+  .ch .to{font-size:15px;font-weight:600;margin-top:8px}
+  .ch .why{font-size:13px;color:var(--mute-2);margin-top:10px;line-height:1.5}
+
+  /* process rail */
+  .rail{display:flex;gap:0;margin-top:40px;border:1px solid var(--line);border-radius:14px;
+    overflow:hidden;flex-wrap:wrap}
+  .rail div{flex:1 1 140px;padding:22px 20px;background:var(--ink-2);
+    border-right:1px solid var(--line)}
+  .rail div:last-child{border-right:none}
+  .rail .s{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;
+    color:var(--mute);text-transform:uppercase}
+  .rail .t{font-size:14px;font-weight:600;margin-top:8px}
+
+  /* cta */
+  .cta{display:inline-flex;align-items:center;gap:12px;margin-top:8px;padding:15px 26px;
+    border-radius:999px;background:var(--paper);color:var(--ink);font-weight:700;
+    font-size:14.5px;text-decoration:none;
+    transition:transform .3s cubic-bezier(.16,1,.3,1),box-shadow .3s ease}
+  .cta:hover{transform:translateY(-2px);box-shadow:0 10px 34px -12px rgba(255,92,158,.7)}
+  .cta .ar{transition:transform .3s cubic-bezier(.16,1,.3,1)}
+  .cta:hover .ar{transform:translateX(4px)}
+
+  footer{padding:64px 0 80px;border-top:1px solid var(--line);color:var(--mute);font-size:13px}
+  .note{font-size:12px;color:var(--mute);line-height:1.6;margin-top:28px;
+    padding-top:20px;border-top:1px solid var(--line)}
+
+  @media(max-width:860px){
+    .split,.personas,.changes{grid-template-columns:1fr}
+    .f{grid-template-columns:1fr;gap:16px}
+    .f-ev{border-left:none;border-top:1px solid var(--line);padding-left:0;padding-top:16px}
+    .f-n{padding-top:0}
+    section{padding:78px 0}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    .reveal{opacity:1;transform:none}
+    .f::before{width:100%}
+    html{scroll-behavior:auto}
+  }
+  :focus-visible{outline:2px solid var(--rose);outline-offset:3px;border-radius:4px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="halo"></div>
+  <div class="wrap">
+    <p class="eyebrow reveal">Google UX Design Certificate &middot; Nov 2022 — Feb 2023</p>
+    <h1 class="display" id="title" aria-label="Blush"></h1>
+    <div class="sub display reveal">learning makeup at your own level</div>
+    <div class="hero-meta reveal">
+      <span><b>SCOPE</b>Self-directed capstone project</span>
+      <span><b>METHODS</b>Interviews, empathy maps, usability testing</span>
+      <span><b>OUTPUT</b>Wireframes → prototype → tested revisions</span>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap narrow">
+    <p class="eyebrow reveal">The problem</p>
+    <h2 class="reveal">Tutorials assume you already know the words.</h2>
+    <p class="lede reveal">
+      Makeup tutorials are everywhere, and that is the problem. They sit on different platforms,
+      assume vocabulary a beginner has not learned, and rarely say how long a look takes or what
+      skill it needs. People gave up before they started.
+    </p>
+    <div class="split">
+      <div class="reveal">
+        <div class="k">What people wanted</div>
+        <div class="v">Tutorials in one place, matched to what I can actually do today.</div>
+      </div>
+      <div class="reveal">
+        <div class="k">What I set out to build</div>
+        <div class="v">A site that sorts tutorials by skill level and by the time you have.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="eyebrow reveal">Who I designed for</p>
+    <h2 class="reveal">Two users, opposite ends of the same problem.</h2>
+    <p class="lede reveal narrow">
+      Interviews and empathy maps surfaced a split that shaped everything after it. Beginners and
+      experts were both underserved, for opposite reasons.
+    </p>
+    <div class="personas">
+      <div class="persona reveal">
+        <div class="nm">Kira</div>
+        <div class="rl">19 &middot; college student &middot; beginner</div>
+        <q>“I know relatively nothing about makeup.”</q>
+        <div class="need"><b>Needs</b> plain language, short tutorials, and to know which brush does what.
+          Jargon and advanced technique send her away.</div>
+      </div>
+      <div class="persona reveal">
+        <div class="nm">Andrea</div>
+        <div class="rl">34 &middot; data analyst &middot; advanced</div>
+        <q>“I am looking for a tutorial that will help me serve face.”</q>
+        <div class="need"><b>Needs</b> a challenge. Basic tutorials bore her, and she cannot tell in
+          advance whether a look will suit her complexion.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="eyebrow reveal">Usability testing</p>
+    <h2 class="reveal">What testing actually found.</h2>
+    <p class="lede reveal narrow">
+      I ran usability sessions on the prototype and grouped every observation on an affinity board.
+      Four themes emerged. The first one appeared in three separate sessions, which made it the
+      priority.
+    </p>
+
+    <div class="findings">
+      <div class="f">
+        <div class="f-n">01</div>
+        <div class="f-body">
+          <h3>People could not find tutorials at their level</h3>
+          <p>The core promise of the product was the thing users could not locate. Three separate
+             participants went looking for skill-based tutorials and failed. One bypassed the level
+             system entirely and used a plain tutorial link instead.</p>
+          <div class="tag"><i></i>3 of 5 participants</div>
+        </div>
+        <div class="f-ev">
+          <q>“Participant didn't know where to find makeup tutorial based on MU knowledge base.”</q>
+          <q>“I do think that it should be more options for level up tab for tutorials 5–7.”</q>
+        </div>
+      </div>
+
+      <div class="f">
+        <div class="f-n">02</div>
+        <div class="f-body">
+          <h3>The words on screen were not the words users had</h3>
+          <p>A participant could not complete a task because the site said “brow” and she was
+             looking for “eyebrow.” Another questioned whether “MUA” would read to anyone outside
+             the industry. Vocabulary was quietly blocking navigation.</p>
+          <div class="tag"><i></i>Task failure</div>
+        </div>
+        <div class="f-ev">
+          <q>“When prompted participant was unable to locate the word eyebrow, did not understand verbiage 'brow'.”</q>
+          <q>“Participant is frustrated that labels don't feel more intuitive to use.”</q>
+        </div>
+      </div>
+
+      <div class="f">
+        <div class="f-n">03</div>
+        <div class="f-body">
+          <h3>Basic navigation was missing</h3>
+          <p>No home key. A search icon people tried and could not use. No clear signup path, so
+             participants could not tell what the site wanted them to do, or who it was for.</p>
+          <div class="tag"><i></i>Structural</div>
+        </div>
+        <div class="f-ev">
+          <q>“You don't have a home key.”</q>
+          <q>“Unable to use search icon.”</q>
+          <q>“I don't have any calls for action… I don't know if it's a platform for MUA to join?”</q>
+        </div>
+      </div>
+
+      <div class="f">
+        <div class="f-n">04</div>
+        <div class="f-body">
+          <h3>Static images where people expected video</h3>
+          <p>Users assumed a tutorial meant video. Still images read as instructions they would have
+             to interpret alone, which is exactly the gap the product existed to close.</p>
+          <div class="tag"><i></i>Content format</div>
+        </div>
+        <div class="f-ev">
+          <q>“For the tutorials should have videos not pictures. If you want a tutorial it should have a mini video.”</q>
+          <q>“Tutorials was not enough — felt the website did not meet my needs.”</q>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="eyebrow reveal">What changed</p>
+    <h2 class="reveal">Findings, turned into revisions.</h2>
+    <div class="changes">
+      <div class="ch reveal">
+        <div class="from">“Brow”</div>
+        <div class="to">“Eyebrow”</div>
+        <div class="why">Site-wide language rewrite to the words users said out loud, not industry
+          shorthand. The vocabulary failure was a task blocker, not a preference.</div>
+      </div>
+      <div class="ch reveal">
+        <div class="from">Level Up as one page</div>
+        <div class="to">Skill tier surfaced on every tutorial</div>
+        <div class="why">If three of five people cannot find the level system, the level system is
+          in the wrong place. Skill became a visible filter, not a destination.</div>
+      </div>
+      <div class="ch reveal">
+        <div class="from">No home key, dead search</div>
+        <div class="to">Persistent nav with working search</div>
+        <div class="why">Users need a way back and a way to look. Both were assumed and neither
+          existed in the tested build.</div>
+      </div>
+      <div class="ch reveal">
+        <div class="from">Still images</div>
+        <div class="to">Video-first tutorials, filterable by time</div>
+        <div class="why">Users asked for “five minute face” options chosen by time available, not
+          just by skill. Time became a filter alongside level.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="eyebrow reveal">Process</p>
+    <h2 class="reveal">How it was built.</h2>
+    <div class="rail reveal">
+      <div><div class="s">01</div><div class="t">Interviews &amp; empathy maps</div></div>
+      <div><div class="s">02</div><div class="t">Personas &amp; journey map</div></div>
+      <div><div class="s">03</div><div class="t">Paper &amp; digital wireframes</div></div>
+      <div><div class="s">04</div><div class="t">Lo-fi prototype</div></div>
+      <div><div class="s">05</div><div class="t">Usability testing</div></div>
+      <div><div class="s">06</div><div class="t">Hi-fi prototype</div></div>
+    </div>
+    <p class="lede reveal narrow" style="margin-top:32px">
+      Accessibility ran through the build rather than sitting at the end: alt text on every image for
+      screen readers, icons paired with labels so navigation did not depend on symbol literacy, and
+      the plain-language rewrite that came directly out of testing.
+    </p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap narrow">
+    <p class="eyebrow reveal">What I took from it</p>
+    <h2 class="reveal">The first idea is a hypothesis, not a design.</h2>
+    <p class="lede reveal">
+      The strongest finding in this project was the one I would not have predicted: a single word,
+      “brow,” stopped someone from finishing a task. Nothing in the wireframes would have caught
+      that. It only surfaced because I put the prototype in front of people and watched where they
+      stopped.
+    </p>
+    <p class="lede reveal">
+      Given another round, I would retest the revised language and level filters with the same
+      participants, and look specifically at whether the site reads as a place for learners, for
+      artists, or both. That ambiguity came up in testing and I have not resolved it.
+    </p>
+    <p class="reveal" style="margin-top:34px">
+      <a class="cta" href="https://xd.adobe.com/view/a607a89d-b6a3-40c6-ae69-621f6af105e4-f354/"
+         target="_blank" rel="noopener">View the prototype <span class="ar">→</span></a>
+    </p>
+    <p class="note reveal">
+      Findings quoted above are verbatim participant observations from the usability sessions,
+      recorded on the project affinity board. Participant names are withheld. Blush is a concept
+      product; the research, testing, and design decisions are my own.
+    </p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">Tamira Carter &middot; Data &amp; Insights Analyst</div>
+</footer>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // hero letter cascade
+  var el = document.getElementById('title'), word = 'Blush';
+  word.split('').forEach(function(ch,i){
+    var s = document.createElement('span');
+    s.className = 'l'; s.textContent = ch;
+    s.style.animationDelay = reduce ? '0s' : (0.06*i + 0.15)+'s';
+    if(reduce){ s.style.opacity=1; s.style.transform='none'; s.style.animation='none'; }
+    el.appendChild(s);
+  });
+
+  // staged reveal on scroll
+  var items = document.querySelectorAll('.reveal, .f');
+  if(reduce){
+    items.forEach(function(n){ n.classList.add('in'); });
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting) return;
+      var sibs = Array.prototype.filter.call(
+        e.target.parentElement ? e.target.parentElement.children : [],
+        function(n){ return n.classList && n.classList.contains('reveal'); });
+      var idx = Math.max(0, sibs.indexOf(e.target));
+      e.target.style.transitionDelay = Math.min(idx*0.08, .32)+'s';
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    });
+  }, {threshold:.14, rootMargin:'0px 0px -8% 0px'});
+
+  items.forEach(function(n){ io.observe(n); });
+
+  // hero items reveal immediately
+  document.querySelectorAll('header .reveal').forEach(function(n,i){
+    n.style.transitionDelay = (0.35 + i*0.1)+'s';
+    requestAnimationFrame(function(){ n.classList.add('in'); });
+  });
+})();
+</script>
+</body>
+</html>

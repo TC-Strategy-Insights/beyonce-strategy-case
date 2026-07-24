@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Tour Effect | Interactive Explorer</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  body{font-family:'Inter',system-ui,sans-serif;background:#050505;color:#fff}
+  .gold{color:#D4AF37}
+  .chip{transition:all .18s ease;cursor:pointer;user-select:none}
+  .chip:hover{border-color:#D4AF37}
+  .chip.on{background:#D4AF37;color:#050505;border-color:#D4AF37;font-weight:700}
+  .num{font-variant-numeric:tabular-nums}
+  .flash{animation:fl .5s ease}
+  @keyframes fl{0%{opacity:.35}100%{opacity:1}}
+  input[type=range]{-webkit-appearance:none;appearance:none;background:transparent;cursor:pointer}
+  input[type=range]::-webkit-slider-runnable-track{height:6px;background:#1f2937;border-radius:99px}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;height:20px;width:20px;border-radius:50%;
+    background:#D4AF37;margin-top:-7px;border:2px solid #050505}
+  input[type=range]::-moz-range-track{height:6px;background:#1f2937;border-radius:99px}
+  input[type=range]::-moz-range-thumb{height:20px;width:20px;border-radius:50%;background:#D4AF37;border:2px solid #050505}
+</style>
+</head>
+<body class="antialiased">
+<div class="max-w-6xl mx-auto px-4 py-10">
+
+  <div class="mb-8">
+    <p class="text-[11px] font-bold uppercase tracking-[0.2em] gold mb-3">Interactive &middot; Renaissance Tour Impact</p>
+    <h1 class="text-3xl md:text-5xl font-black tracking-tight leading-tight mb-3">Ticket sales are the small part</h1>
+    <p class="text-gray-400 text-base md:text-lg max-w-2xl leading-relaxed">
+      The tour sold <span class="text-white font-semibold">$579M</span> in tickets but is projected to move
+      <span class="text-white font-semibold">$4.5B</span> through the U.S. economy. Explore where the rest of it goes,
+      and what a tour stop does to a host city's hotels.
+    </p>
+  </div>
+
+  <!-- MULTIPLIER STRIP -->
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+    <div class="bg-[#0e0e0e] border border-gray-800 rounded-2xl p-5">
+      <p class="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-2">Box office</p>
+      <div class="text-3xl md:text-4xl font-black num text-gray-400">$579M</div>
+      <p class="text-[11px] text-gray-600 mt-2">12.9% of total impact</p>
+    </div>
+    <div class="bg-[#0e0e0e] border border-gray-800 rounded-2xl p-5">
+      <p class="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-2">Everything else</p>
+      <div class="text-3xl md:text-4xl font-black num gold">$3.92B</div>
+      <p class="text-[11px] text-gray-600 mt-2">Hotels, dining, transport, wages</p>
+    </div>
+    <div class="bg-[#0e0e0e] border-2 border-[#D4AF37] rounded-2xl p-5">
+      <p class="text-[10px] font-bold uppercase tracking-widest gold mb-2">The multiplier</p>
+      <div class="text-3xl md:text-4xl font-black num text-white">$7.77</div>
+      <p class="text-[11px] text-gray-500 mt-2">Activity per $1 of ticket revenue</p>
+    </div>
+    <div class="bg-[#0e0e0e] border border-gray-800 rounded-2xl p-5">
+      <p class="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-2">Per attendee</p>
+      <div class="text-3xl md:text-4xl font-black num text-white">$1,667</div>
+      <p class="text-[11px] text-gray-600 mt-2">Of which $214 is the ticket</p>
+    </div>
+  </div>
+
+  <!-- CITY EXPLORER -->
+  <div class="bg-[#0e0e0e] border border-gray-800 rounded-2xl p-6 mb-6">
+    <p class="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-3">Select a tour stop</p>
+    <div id="cityChips" class="flex flex-wrap gap-2 mb-6"></div>
+
+    <div class="grid md:grid-cols-3 gap-6 items-center">
+      <div class="md:col-span-1">
+        <p class="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-2">Hotel revenue on concert dates</p>
+        <div id="cityPrem" class="text-5xl md:text-6xl font-black num gold mb-2">+158%</div>
+        <p id="cityNote" class="text-sm text-gray-400 leading-relaxed"></p>
+      </div>
+      <div class="md:col-span-2">
+        <div style="position:relative;height:220px"><canvas id="cityChart"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CAPACITY SLIDER -->
+  <div class="bg-[#0e0e0e] border border-gray-800 rounded-2xl p-6 mb-6">
+    <div class="flex flex-wrap items-baseline justify-between gap-3 mb-2">
+      <h2 class="font-bold text-sm uppercase tracking-wide">What a stadium show is worth to a host city</h2>
+      <span class="text-[11px] text-gray-500">Drag to change attendance</span>
+    </div>
+    <p class="text-[11px] text-gray-500 mb-5">
+      Applies the tour-wide average of $1,667 of economic activity per attendee. A rough scaling, not a
+      city-specific forecast.
+    </p>
+    <input id="attSlider" type="range" min="20000" max="80000" step="1000" value="50000" class="w-full mb-5">
+    <div class="grid grid-cols-3 gap-4">
+      <div>
+        <p class="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1">Attendance</p>
+        <div id="sAtt" class="text-2xl md:text-3xl font-black num text-white">50,000</div>
+      </div>
+      <div>
+        <p class="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1">Ticket spend</p>
+        <div id="sTick" class="text-2xl md:text-3xl font-black num text-gray-400">$10.7M</div>
+      </div>
+      <div>
+        <p class="text-[10px] font-bold uppercase tracking-widest gold mb-1">Total activity</p>
+        <div id="sTotal" class="text-2xl md:text-3xl font-black num gold">$83.4M</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- READOUT -->
+  <div class="bg-[#0e0e0e] border border-gray-800 rounded-2xl p-6 mb-6">
+    <p id="readout" class="text-sm md:text-base text-gray-300 leading-relaxed"></p>
+  </div>
+
+  <p class="text-[11px] text-gray-600 leading-relaxed border-t border-gray-800 pt-5">
+    Sources: 2023 touring data, STR hotel performance reports, and New York Times analysis. The $4.5 billion
+    figure is a <strong>projection</strong> of total U.S. economic impact, covering direct spending (tickets and
+    merchandise), indirect spending (hotels, dining, transport), and induced effects (wages and jobs). Hotel
+    figures compare revenue per available room on concert dates against the seasonal baseline for the same market,
+    shown here indexed to 100. The multiplier and per-attendee figures are calculated from the published totals
+    above. The attendance tool applies a tour-wide average and is illustrative, not a city-level forecast.
+  </p>
+</div>
+
+<script>
+const CITIES = [
+  {name:'Charlotte', prem:158, note:'The largest hotel revenue swing in the dataset. Demand behaved like a Super Bowl weekend rather than a concert night.'},
+  {name:'Cardiff',   prem:152, note:'A mid-size market with limited hotel supply, where a single tour stop nearly triples room revenue.'},
+  {name:'Cologne',   prem:121, note:'Strong lift, moderated by a deeper existing hotel base absorbing the demand.'},
+  {name:'Stockholm', prem:95,  note:'The smallest premium of the four, though still close to double the seasonal baseline.'}
+];
+const TOTAL = 4.5e9, BOX = 579e6, ATT = 2.7e6;
+const PER_ATTENDEE = TOTAL/ATT;          // 1666.67
+const TICKET_PER_ATTENDEE = BOX/ATT;     // 214.44
+let sel = 0;
+
+const money = v => {
+  if(v >= 1e9) return '$'+(v/1e9).toFixed(2)+'B';
+  if(v >= 1e6) return '$'+(v/1e6).toFixed(1)+'M';
+  if(v >= 1e3) return '$'+Math.round(v/1e3)+'K';
+  return '$'+Math.round(v);
+};
+
+let cityChart;
+
+function render(){
+  const chips = document.getElementById('cityChips');
+  chips.innerHTML='';
+  CITIES.forEach((c,i)=>{
+    const b=document.createElement('button');
+    b.className='chip px-4 py-2 rounded-full border border-gray-700 text-xs md:text-sm text-gray-300';
+    b.textContent=c.name;
+    if(i===sel) b.classList.add('on');
+    b.onclick=()=>{ sel=i; render(); };
+    chips.appendChild(b);
+  });
+
+  const c = CITIES[sel];
+  const pe = document.getElementById('cityPrem');
+  pe.textContent = '+'+c.prem+'%';
+  pe.classList.remove('flash'); void pe.offsetWidth; pe.classList.add('flash');
+  document.getElementById('cityNote').textContent = c.note;
+
+  const d = {
+    labels: CITIES.map(x=>x.name),
+    datasets: [
+      {label:'Seasonal baseline', data: CITIES.map(()=>100),
+       backgroundColor:'#374151', borderRadius:4, barPercentage:.75, categoryPercentage:.62},
+      {label:'Concert dates', data: CITIES.map(x=>100+x.prem),
+       backgroundColor: CITIES.map((x,i)=> i===sel ? '#D4AF37' : '#7C6420'),
+       borderRadius:4, barPercentage:.75, categoryPercentage:.62}
+    ]
+  };
+  const opt = {
+    responsive:true, maintainAspectRatio:false,
+    plugins:{
+      legend:{display:true, position:'top', align:'end',
+        labels:{color:'#9CA3AF', usePointStyle:true, boxWidth:10, font:{size:11}}},
+      tooltip:{backgroundColor:'#000', padding:11, cornerRadius:8,
+        callbacks:{
+          label:c2=>' '+c2.dataset.label+': '+c2.parsed.y+' (indexed)',
+          afterBody:items=>{ const i=items[0].dataIndex; return '\n▲ +'+CITIES[i].prem+'% vs baseline'; }
+        }}
+    },
+    onClick:(e,el)=>{ if(el.length){ sel=el[0].index; render(); } },
+    scales:{
+      y:{beginAtZero:true, grid:{color:'#1f2937'}, ticks:{color:'#9CA3AF'},
+         title:{display:true, text:'RevPAR (baseline = 100)', color:'#6B7280', font:{size:10}}},
+      x:{grid:{display:false}, ticks:{color:'#E5E7EB', font:{weight:'600', size:11}}}
+    }
+  };
+  if(cityChart){ cityChart.data=d; cityChart.options=opt; cityChart.update(); }
+  else { cityChart = new Chart(document.getElementById('cityChart'), {type:'bar', data:d, options:opt}); }
+
+  updateSlider();
+}
+
+function updateSlider(){
+  const n = +document.getElementById('attSlider').value;
+  const tick = n*TICKET_PER_ATTENDEE;
+  const total = n*PER_ATTENDEE;
+  document.getElementById('sAtt').textContent = n.toLocaleString();
+  document.getElementById('sTick').textContent = money(tick);
+  document.getElementById('sTotal').textContent = money(total);
+
+  const c = CITIES[sel];
+  document.getElementById('readout').innerHTML =
+    '<strong class="text-white">'+c.name+':</strong> hotel revenue per available room ran '+
+    '<strong class="gold">'+(100+c.prem)+'</strong> against a baseline of 100 on concert dates, a '+
+    c.prem+'% premium. At '+n.toLocaleString()+' attendees, a stop like this is associated with roughly '+
+    '<strong class="text-white">'+money(total)+'</strong> of economic activity, of which only '+
+    money(tick)+' is ticket spend. The other '+money(total-tick)+
+    ' lands with hotels, restaurants, transport and the wages that follow.';
+}
+
+document.getElementById('attSlider').addEventListener('input', updateSlider);
+render();
+</script>
+</body>
+</html>
